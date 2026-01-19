@@ -280,5 +280,76 @@
             }
         });
     </script>
+    <style>
+    .demogorgon-container {
+        position: fixed;
+        bottom: -20px;
+        left: -200px; /* เริ่มต้นนอกจอ */
+        width: 250px; /* ปรับขนาดตัว */
+        z-index: 5; /* ให้อยู่หลังตัวหนังสือแต่หน้าพื้นหลัง */
+        pointer-events: none; /* เพื่อให้ยังกดปุ่มในเว็บได้ปกติ */
+        filter: drop-shadow(0 0 15px rgba(225, 29, 72, 0.5)) brightness(0.5); /* ใส่เงาสีแดงให้เข้ากับธีมพรรค */
+        animation: walkingDemogorgon 25s linear infinite;
+        opacity: 0.7;
+    }
+
+    .demogorgon-img {
+        width: 100%;
+        height: auto;
+        /* ถ้ามีไฟล์ GIF ของตัวเองสามารถเปลี่ยน URL ได้ที่นี่ */
+    }
+
+    @keyframes walkingDemogorgon {
+        0% {
+            left: -250px;
+            transform: scaleX(1);
+        }
+        45% {
+            transform: scaleX(1);
+        }
+        50% {
+            left: 110%;
+            transform: scaleX(-1); /* กลับตัวเดินกลับ */
+        }
+        95% {
+            transform: scaleX(-1);
+        }
+        100% {
+            left: -250px;
+            transform: scaleX(1);
+        }
+    }
+
+    /* เอฟเฟกต์ไฟกะพริบตอน Demogorgon เดินผ่าน */
+    .flicker-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(225, 29, 72, 0.05);
+        pointer-events: none;
+        z-index: 4;
+        animation: lightFlicker 4s infinite;
+        display: none;
+    }
+
+    @keyframes lightFlicker {
+        0%, 18%, 22%, 25%, 53%, 57%, 100% { opacity: 0; }
+        20%, 24%, 55% { opacity: 1; }
+    }
+</style>
+
+<div class="demogorgon-container" id="demoContainer">
+    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJndm80Z3R4bmV3amZ5bmZidm9yeXpueXFiaXFidm9yeXpueXFiaSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/3o7TKUGccxlaSoOshG/giphy.gif" alt="Demogorgon" class="demogorgon-img">
+</div>
+
+<div class="flicker-overlay" id="flicker"></div>
+
+<script>
+    // สุ่มให้บางช่วงไฟกะพริบ
+    setInterval(() => {
+        const flicker = document.getElementById('flicker');
+        flicker.style.display = 'block';
+        setTimeout(() => { flicker.style.display = 'none'; }, 3000);
+    }, 10000);
+</script>
 </body>
 </html>
