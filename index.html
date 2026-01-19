@@ -2,205 +2,179 @@
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MEMBERS | SUCSEED 2026</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SUCSEED 2026 | STRANGER THINGS EDITION</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@200;300;400;500;600;800&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brandOrange: '#ff6b00', // ส้มสด
-                        brandRed: '#e11d48',    // แดงสด
-                        brandBlack: '#0a0a0a',  // ดำลึก
-                        brandWhite: '#ffffff'   // ขาวสะอาด
-                    },
-                    fontFamily: { kanit: ['Kanit', 'sans-serif'] }
-                }
-            }
-        }
-    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,300;0,700;1,900&family=EB+Garamond:ital,wght@1,800&family=Oswald:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
+        :root {
+            --stranger-red: #e11d1d;
+            --upside-down-blue: #0a1128;
+        }
+
         body { 
-            font-family: 'Kanit', sans-serif; 
             background-color: #050505; 
-            color: #ffffff; 
+            color: #eee; 
+            font-family: 'Kanit', sans-serif; 
             overflow-x: hidden;
         }
 
-        /* Ambient Glow Background */
-        .bg-glow {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1;
-            background: radial-gradient(circle at 10% 10%, rgba(255, 107, 0, 0.15) 0%, transparent 40%),
-                        radial-gradient(circle at 90% 90%, rgba(225, 29, 72, 0.15) 0%, transparent 40%);
+        /* เอฟเฟกต์เส้นโทรทัศน์เก่า (VHS Scanlines) */
+        .vhs-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 4px, 3px 100%; pointer-events: none; z-index: 100; opacity: 0.15;
         }
 
-        /* Header Title Effect */
-        .title-gradient {
-            background: linear-gradient(to right, #ffffff 30%, #ff6b00 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* Card Design */
-        .member-card {
-            background: #121212;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            overflow: hidden;
-            position: relative;
-        }
-        .member-card:hover {
-            transform: translateY(-10px);
-            border-color: #ff6b00;
-            box-shadow: 0 15px 30px -10px rgba(255, 107, 0, 0.4);
-        }
-
-        /* Photo Overlays */
-        .img-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 50%);
-            opacity: 1;
-        }
-
-        /* Label Badge */
-        .role-badge {
-            background: linear-gradient(45deg, #ff6b00, #e11d48);
-            color: white;
-            padding: 2px 10px;
-            font-size: 0.65rem;
-            font-weight: 800;
+        /* ฟอนต์หัวเว็บแนว Stranger Things */
+        .stranger-title {
+            font-family: 'EB Garamond', serif;
+            font-size: 5rem;
+            color: transparent;
+            -webkit-text-stroke: 1.5px var(--stranger-red);
             text-transform: uppercase;
-            border-radius: 4px;
+            letter-spacing: -2px;
+            font-style: italic;
+            filter: drop-shadow(0 0 15px rgba(225, 29, 29, 0.8));
+            line-height: 0.8;
+            transition: 0.5s;
+        }
+        .stranger-title:hover {
+            color: var(--stranger-red);
+            filter: drop-shadow(0 0 25px rgba(225, 29, 29, 1));
         }
 
-        /* Scrollbar */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #000; }
-        ::-webkit-scrollbar-thumb { background: #ff6b00; border-radius: 10px; }
+        /* ปรับโทนรูป (Cinematic Retro Tone) */
+        .img-box img {
+            width: 100%; height: 100%; object-fit: cover;
+            /* โทนสีหนังเก่า: เพิ่ม Contrast, ลดสว่างนิดหน่อย, อมส้มนิดๆ */
+            filter: contrast(1.2) brightness(0.85) saturate(1.2) sepia(0.1);
+            transition: all 0.5s ease;
+        }
+
+        .member-card:hover .img-box img {
+            filter: contrast(1.1) brightness(1.1) saturate(1.3) sepia(0);
+            transform: scale(1.08);
+        }
+
+        .img-box {
+            position: relative; aspect-ratio: 3/4; overflow: hidden;
+            border: 2px solid #1a1a1a;
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.5);
+        }
+
+        .member-card:hover .img-box {
+            border-color: var(--stranger-red);
+            box-shadow: 0 0 20px rgba(225, 29, 29, 0.4);
+        }
+
+        /* การ์ดสมาชิก */
+        .member-card { cursor: pointer; position: relative; z-index: 20; }
+
+        /* ป้ายชื่อแนว Retro */
+        .name-tag {
+            background: linear-gradient(90deg, #1a1a1a, #050505);
+            border-left: 3px solid var(--stranger-red);
+            padding: 5px 10px;
+            margin-top: -10px;
+            position: relative;
+            z-index: 30;
+        }
+
+        /* Navigation */
+        .scrolling-wrapper {
+            display: flex; overflow-x: auto; padding: 15px;
+            gap: 15px; position: sticky; top: 0; z-index: 50;
+            background: rgba(5, 5, 5, 0.9); backdrop-filter: blur(10px);
+            border-bottom: 1px solid #222;
+        }
+        .scrolling-wrapper::-webkit-scrollbar { display: none; }
+        .nav-item {
+            flex: 0 0 auto; color: #666; font-weight: bold; font-size: 0.8rem;
+            text-transform: uppercase; letter-spacing: 2px; transition: 0.3s;
+        }
+        .nav-item.active { color: var(--stranger-red); text-shadow: 0 0 10px var(--stranger-red); }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.95);
+            z-index: 999; display: none; align-items: center; justify-content: center;
+        }
+        .modal-content {
+            background: #0a0a0a; border: 1px solid var(--stranger-red);
+            width: 90%; max-width: 400px; padding: 20px; text-align: center;
+            box-shadow: 0 0 30px rgba(225, 29, 29, 0.2);
+        }
+
+        /* Particles */
+        #particles-js { position: fixed; inset: 0; z-index: 5; }
     </style>
 </head>
-<body class="antialiased">
+<body>
 
-    <div class="bg-glow"></div>
+    <div class="vhs-overlay"></div>
+    <div id="particles-js"></div>
 
-    <header class="pt-24 pb-12 text-center relative z-10">
-        <h1 class="text-6xl md:text-8xl font-black italic tracking-tighter uppercase mb-2 leading-none">
-            <span class="text-white">SUC</span><span class="title-gradient">SEED</span>
-        </h1>
-        <div class="flex items-center justify-center gap-4 mt-4">
-            <div class="h-[2px] w-16 bg-brandOrange"></div>
-            <p class="text-white font-medium tracking-[0.3em] text-xs uppercase">Student Council  2026</p>
-            <div class="h-[2px] w-16 bg-brandRed"></div>
-        </div>
+    <header class="relative z-10 pt-20 pb-10 text-center">
+        <div class="mb-2 text-zinc-500 tracking-[0.5em] text-[10px] uppercase">Official Membership 2026</div>
+        <h1 class="stranger-title">SUCSEED</h1>
+        <h1 class="stranger-title" style="font-size: 3.5rem; margin-top: -15px;">SQUAD</h1>
+        <p class="mt-6 text-zinc-400 font-light italic">"The Future is coming... from the Upside Down"</p>
     </header>
 
-    <main class="container mx-auto px-6 pb-32 relative z-10">
-        
-        <div class="mb-20">
-            <h2 class="text-center text-brandOrange font-bold text-xl mb-10 tracking-widest uppercase flex items-center justify-center gap-4">
-                <span class="w-8 h-[1px] bg-white/20"></span> ครูที่ปรึกษา <span class="w-8 h-[1px] bg-white/20"></span>
-            </h2>
-            <div class="flex flex-wrap justify-center gap-8">
-                <div class="member-card w-48 md:w-56 rounded-2xl cursor-pointer" onclick="openModal('ครูจตุพร อาจวาที', 'ครูพร', 'ครูที่ปรึกษา', '-', 'https://www.suanchon.ac.th/math/images/m017.jpg')">
-                    <div class="aspect-[3/4] relative">
-                        <img src="https://www.suanchon.ac.th/math/images/m017.jpg" class="w-full h-full object-cover">
-                        <div class="img-overlay"></div>
+    <nav class="scrolling-wrapper" id="navMenu">
+        </nav>
+
+    <main class="container mx-auto px-6 py-10 relative z-10">
+
+        <div id="section-exec" class="mb-20">
+            <div class="grid grid-cols-1 md:grid-cols-3">
+                <div class="md:col-start-2 member-card group" onclick="openModal('ณัฐณิชา โตกำแพง', 'หยก', 'PRESIDENT', '@rlawjdalf_', 'https://scontent.fbkk29-6.fna.fbcdn.net/v/t1.15752-9/613870729_1681805516162144_2729521324442702921_n.png?_nc_cat=109&ccb=1-7&_nc_sid=0024fc&_nc_ohc=THvC-rsi-SQQ7kNvwFcUdpR&_nc_oc=AdleQJloy_2TS88raDIXfl0nomWY1cgRf6jJvihsjs-SVEurnHZOKhpYoYnyBqrFM_o&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk29-6.fna&oh=03_Q7cD4QEStWeA002q9Cl8uTmgWso26TeV6KuOz9PlAKTPGH7MMA&oe=6992710A')">
+                    <div class="img-box border-brand-red">
+                        <img src="https://scontent.fbkk29-6.fna.fbcdn.net/v/t1.15752-9/613870729_1681805516162144_2729521324442702921_n.png?_nc_cat=109&ccb=1-7&_nc_sid=0024fc&_nc_ohc=THvC-rsi-SQQ7kNvwFcUdpR&_nc_oc=AdleQJloy_2TS88raDIXfl0nomWY1cgRf6jJvihsjs-SVEurnHZOKhpYoYnyBqrFM_o&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk29-6.fna&oh=03_Q7cD4QEStWeA002q9Cl8uTmgWso26TeV6KuOz9PlAKTPGH7MMA&oe=6992710A" onerror="fallbackImg(this)">
                     </div>
-                    <div class="p-4 relative text-center">
-                        <p class="text-[10px] text-brandOrange font-bold uppercase mb-1">Advisory Team</p>
-                        <h3 class="text-white font-bold">ครูจตุพร อาจวาที</h3>
-                    </div>
-                </div>
-                <div class="member-card w-48 md:w-56 rounded-2xl cursor-pointer" onclick="openModal('ครูกุลธิดา สมบูรณ์ยิ่ง', 'ครูอิ้ง', 'ครูที่ปรึกษา', '-', 'https://www.suanchon.ac.th/guidance/images/gd002.jpg')">
-                    <div class="aspect-[3/4] relative">
-                        <img src="https://www.suanchon.ac.th/guidance/images/gd002.jpg" class="w-full h-full object-cover">
-                        <div class="img-overlay"></div>
-                    </div>
-                    <div class="p-4 relative text-center">
-                        <p class="text-[10px] text-brandOrange font-bold uppercase mb-1">Advisory Team</p>
-                        <h3 class="text-white font-bold">ครูกุลธิดา สมบูรณ์ยิ่ง</h3>
+                    <div class="name-tag">
+                        <h3 class="text-xl font-black italic text-white">หยก ณัฐณิชา</h3>
+                        <p class="text-xs text-red-600 font-bold uppercase tracking-widest">PRESIDENT</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="mb-24">
-            <h2 class="text-3xl font-black mb-12 border-l-4 border-brandOrange pl-6 uppercase">Executive <span class="text-brandOrange">Board</span></h2>
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-8">
-                <div class="member-card rounded-3xl cursor-pointer" onclick="openModal('ณัฐณิชา โตกำแพง', 'หยก', 'ประธานพรรค', '@rlawjdalf_', 'https://scontent.fbkk29-6.fna.fbcdn.net/v/t1.15752-9/613870729_1681805516162144_2729521324442702921_n.png?_nc_cat=109&ccb=1-7&_nc_sid=0024fc&_nc_ohc=THvC-rsi-SQQ7kNvwFcUdpR&_nc_oc=AdleQJloy_2TS88raDIXfl0nomWY1cgRf6jJvihsjs-SVEurnHZOKhpYoYnyBqrFM_o&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk29-6.fna&oh=03_Q7cD4QEStWeA002q9Cl8uTmgWso26TeV6KuOz9PlAKTPGH7MMA&oe=6992710A')">
-                    <div class="aspect-[3/4] relative">
-                        <img src="https://scontent.fbkk29-6.fna.fbcdn.net/v/t1.15752-9/613870729_1681805516162144_2729521324442702921_n.png?_nc_cat=109&ccb=1-7&_nc_sid=0024fc&_nc_ohc=THvC-rsi-SQQ7kNvwFcUdpR&_nc_oc=AdleQJloy_2TS88raDIXfl0nomWY1cgRf6jJvihsjs-SVEurnHZOKhpYoYnyBqrFM_o&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk29-6.fna&oh=03_Q7cD4QEStWeA002q9Cl8uTmgWso26TeV6KuOz9PlAKTPGH7MMA&oe=6992710A" class="w-full h-full object-cover">
-                        <div class="absolute top-4 right-4"><span class="role-badge">President</span></div>
-                        <div class="img-overlay"></div>
-                    </div>
-                    <div class="p-6 bg-brandWhite text-brandBlack">
-                        <h3 class="text-xl font-extrabold uppercase leading-tight">ณัฐณิชา โตกำแพง</h3>
-                        <p class="text-sm font-bold opacity-70">หยก (ประธาน)</p>
-                    </div>
-                </div>
-                <div class="member-card rounded-3xl cursor-pointer" onclick="openModal('ธาวา พัชรนรากุล', 'โตโน่', 'รองประธานพรรค', '@_tononaja_', 'https://scontent.fbkk29-5.fna.fbcdn.net/v/t1.15752-9/612247838_1253824166643530_4341460234555443409_n.png?_nc_cat=107&ccb=1-7&_nc_sid=0024fc&_nc_ohc=zlSIbcHydlkQ7kNvwHVsBB4&_nc_oc=Adn_AvDQBkE4H8_iO0ia3gNR8IGdN5lYD3XyXOnM8Ycm4OyIxpCmqCrzA7hB7K5gKJ4&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk29-5.fna&oh=03_Q7cD4QG4tTOnoXXzJ3IZPaoP0D0P-NkJzvWipyVwS-C-KXvXIw&oe=69926CAC')">
-                    <div class="aspect-[3/4] relative">
-                        <img src="https://scontent.fbkk29-5.fna.fbcdn.net/v/t1.15752-9/612247838_1253824166643530_4341460234555443409_n.png?_nc_cat=107&ccb=1-7&_nc_sid=0024fc&_nc_ohc=zlSIbcHydlkQ7kNvwHVsBB4&_nc_oc=Adn_AvDQBkE4H8_iO0ia3gNR8IGdN5lYD3XyXOnM8Ycm4OyIxpCmqCrzA7hB7K5gKJ4&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk29-5.fna&oh=03_Q7cD4QG4tTOnoXXzJ3IZPaoP0D0P-NkJzvWipyVwS-C-KXvXIw&oe=69926CAC" class="w-full h-full object-cover">
-                        <div class="absolute top-4 right-4"><span class="role-badge">Vice Pres.</span></div>
-                        <div class="img-overlay"></div>
-                    </div>
-                    <div class="p-6 bg-brandWhite text-brandBlack">
-                        <h3 class="text-xl font-extrabold uppercase leading-tight">ธาวา พัชรนรากุล</h3>
-                        <p class="text-sm font-bold opacity-70">โตโน่ (รองประธาน)</p>
-                    </div>
-                </div>
-                <div class="member-card rounded-3xl cursor-pointer" onclick="openModal('กฤติยา ทัพซ้าย', 'จูน', 'เลขานุการ', '@juneee_.un', 'https://scontent.fbkk29-7.fna.fbcdn.net/v/t1.15752-9/611956706_885130144099206_590462641228853843_n.png?_nc_cat=106&ccb=1-7&_nc_sid=0024fc&_nc_ohc=1H3QZXdpRWMQ7kNvwHM0MXw&_nc_oc=AdkzHQ7bUb9TtIXBiZxwXHUyncwt_PWw1hm3X8IIwS0kfIb4B0XccPOMkRzJ90KNCkc&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk29-7.fna&oh=03_Q7cD4QHjYuSli-nMej680yl47raD1aRrNHDtxxF-T8z15Azv6Q&oe=69924DF9')">
-                    <div class="aspect-[3/4] relative">
-                        <img src="https://scontent.fbkk29-7.fna.fbcdn.net/v/t1.15752-9/611956706_885130144099206_590462641228853843_n.png?_nc_cat=106&ccb=1-7&_nc_sid=0024fc&_nc_ohc=1H3QZXdpRWMQ7kNvwHM0MXw&_nc_oc=AdkzHQ7bUb9TtIXBiZxwXHUyncwt_PWw1hm3X8IIwS0kfIb4B0XccPOMkRzJ90KNCkc&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk29-7.fna&oh=03_Q7cD4QHjYuSli-nMej680yl47raD1aRrNHDtxxF-T8z15Azv6Q&oe=69924DF9" class="w-full h-full object-cover">
-                        <div class="absolute top-4 right-4"><span class="role-badge" style="background: #333;">Secretary</span></div>
-                        <div class="img-overlay"></div>
-                    </div>
-                    <div class="p-6 bg-brandWhite text-brandBlack">
-                        <h3 class="text-xl font-extrabold uppercase leading-tight">กฤติยา ทัพซ้าย</h3>
-                        <p class="text-sm font-bold opacity-70">จูน (เลขานุการ)</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="dept-container" class="space-y-20"></div>
+        <div id="dynamic-members"></div>
 
     </main>
 
-    <div id="mSystem" class="fixed inset-0 z-50 hidden bg-brandBlack/95 flex items-center justify-center p-4 backdrop-blur-md" onclick="closeModal()">
-        <div class="bg-brandBlack border-2 border-brandOrange w-full max-w-sm rounded-3xl overflow-hidden shadow-[0_0_50px_rgba(255,107,0,0.3)] transform transition-all duration-300 scale-95" id="modalContent" onclick="event.stopPropagation()">
-            <div class="relative aspect-[4/5]">
-                <img id="mImg" src="" class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-gradient-to-t from-brandBlack via-transparent to-transparent"></div>
-                <button onclick="closeModal()" class="absolute top-4 right-4 bg-white/10 hover:bg-white/20 p-2 rounded-full text-white">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                </button>
+    <div id="mSystem" class="modal-overlay" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="border-2 border-zinc-800 p-1">
+                <img id="mImg" src="" class="w-full aspect-[3/4] object-cover">
             </div>
-            <div class="p-8 -mt-12 relative text-center">
-                <div id="mRole" class="inline-block bg-brandOrange text-white text-[10px] font-black px-4 py-1 rounded-full mb-4 shadow-lg uppercase tracking-widest">Role</div>
-                <h3 id="mName" class="text-2xl font-black text-white mb-6 uppercase italic tracking-tight">Name (Nick)</h3>
-                <a id="mIG" href="#" target="_blank" class="flex items-center justify-center gap-3 bg-white text-black py-4 rounded-2xl font-black text-sm hover:bg-brandOrange hover:text-white transition-all uppercase tracking-widest group">
-                    <span>Follow Instagram</span>
-                    <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            <div class="mt-6">
+                <p id="mRole" class="text-red-600 text-[10px] font-bold tracking-[0.3em] mb-1">DEPARTMENT</p>
+                <h3 id="mName" class="text-2xl font-black text-white italic mb-4">NAME HERE</h3>
+                <a id="mIG" href="#" target="_blank" class="block w-full border border-red-600 py-3 text-red-600 font-bold hover:bg-red-600 hover:text-white transition">
+                    VIEW CLASSIFIED IG
                 </a>
             </div>
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
+        // Data
         const membersData = [
             {
-                deptName: 'Coordinators (ประสานงาน)',
+                id: 'coordinators',
+                deptName: 'Coordinators',
                 members: [
-                    { full: 'นางสาวใบข้าว เปี่ยมทองคำ', nick: 'ใบข้าว', role: 'หัวหน้าประสานงาน', ig: '@bqnclz9', img: 'https://scontent.fbkk22-1.fna.fbcdn.net/v/t1.15752-9/614556512_1951762112361554_4434134717209643794_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=0024fc&_nc_ohc=CpLc6acW5XkQ7kNvwGBRysE&_nc_oc=AdkBYlqKuLEK8-h5o7JO3KH81Q5pSFwJKgPY3JGToCdqLscDxuCZJkwqvwsU6SNM6Cc&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-1.fna&oh=03_Q7cD4QETo39pJRg0rnx7LqgUUNITGndDGrl3RsL6wDlwkHfvFQ&oe=69958321' },
+                      { full: 'นางสาวใบข้าว เปี่ยมทองคำ', nick: 'ใบข้าว', role: 'หัวหน้าประสานงาน', ig: '@bqnclz9', img: 'https://scontent.fbkk22-1.fna.fbcdn.net/v/t1.15752-9/614556512_1951762112361554_4434134717209643794_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=0024fc&_nc_ohc=CpLc6acW5XkQ7kNvwGBRysE&_nc_oc=AdkBYlqKuLEK8-h5o7JO3KH81Q5pSFwJKgPY3JGToCdqLscDxuCZJkwqvwsU6SNM6Cc&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-1.fna&oh=03_Q7cD4QETo39pJRg0rnx7LqgUUNITGndDGrl3RsL6wDlwkHfvFQ&oe=69958321' },
                     { full: 'นางสาวชุติการณ์ สมสายฝน', nick: 'กิ้บ', role: 'ประสานงาน', ig: '@9czusi.k', img: 'https://scontent.fbkk22-1.fna.fbcdn.net/v/t1.15752-9/614140381_2145877699554229_39352695626633711_n.png?_nc_cat=101&ccb=1-7&_nc_sid=0024fc&_nc_ohc=zydfckKgnAQQ7kNvwHnCBYQ&_nc_oc=AdlV3YxJTGm4wGDMxnJDqXDVF7mMSywXwLQggtFlKwWD_oePhv_DDJNH0fO7l6NOuOg&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-1.fna&oh=03_Q7cD4QG9VQAggJlXye3EfK90wXcbc-Mjc4lxTZ49j7VHFoDleA&oe=69955C01' },
                  
-                    { full: 'นางสาวพัทธนันท์ ไกรทอง', nick: 'ออม', role: 'ประสานงาน', ig: '@7augustii', img: 'https://scontent.fbkk22-3.fna.fbcdn.net/v/t1.15752-9/598659798_2875881865938827_5514433900266970277_n.png?_nc_cat=111&ccb=1-7&_nc_sid=0024fc&_nc_ohc=hpVkWWm22acQ7kNvwH7JR11&_nc_oc=AdmIT0aLPmfodqg2rzl1dne4ndwQA0Mc8mu7FnM1zpEYvIacTgiW9feWzV6w6vtwr3c&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-3.fna&oh=03_Q7cD4QHr25Mp8kgI9t0TtLHdDPwjz1LJC-yGbdUV5cCDUYuEaw&oe=6995B4A6' }
+                    { full: 'นางสาวพัทธนันท์ ไกรทอง', nick: 'ออม', role: 'ประสานงาน', ig: '@7augustii', img: 'https://scontent.fbkk22-2.fna.fbcdn.net/v/t1.15752-9/598061250_1229170318590969_747716266068245596_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=0024fc&_nc_ohc=XBw58O0kk70Q7kNvwEJ8glv&_nc_oc=Adl2KTC_dMdYyHUnTNi6PsVBmHZAt8pphplEVZcBPd3lwAj ds3ZnLTcgG_y-AHhczCw&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-2.fna&oh=03_Q7cD4QFrEiatflV33NHQjOIeZ4x1gpFADV9HLzpvb7L7GNvQgA&oe=69958847' }
                 ]
             },
             {
@@ -209,7 +183,7 @@
                 members: [
                     { full: 'นางสาวบุญญาลักษณ์ ปัสสาภัย', nick: 'บิว', role: 'หัวหน้ากราฟิก', ig: '@b4eau._', img: 'https://scontent.fbkk22-8.fna.fbcdn.net/v/t1.15752-9/616273406_876537755288986_4593297966536245672_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=0024fc&_nc_ohc=gncCgQD5P04Q7kNvwE_WxIg&_nc_oc=AdlkNxShew0QbbUuOIOnMw2CIL_yIz9DnxuH2IBhYqgABkmvtdaInVNuCeww7S86lxY&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-8.fna&oh=03_Q7cD4QGT5_bA00m2p0UHyqPGk8TB3PILMrQ4h1760Rr17ncOKA&oe=69957ECC' },
                     { full: 'นางสาวอนัญญา ชัยเจริญ', nick: 'จีน', role: 'กราฟิก', ig: '@jiessw_', img: 'https://scontent.fbkk22-7.fna.fbcdn.net/v/t1.15752-9/617232293_858744133814180_1129247604010465529_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=0024fc&_nc_ohc=HpiuqLkvoxMQ7kNvwEI0fpe&_nc_oc=Admw4zZeSelZzQIoEZB6wrKjywBgygl5a1dEfz4gARp6XwzRgUA7VXjdqBPrUf0Zn4U&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-7.fna&oh=03_Q7cD4QHgRuwf-NJxUbgGcZEJpxnmWGvAKRE9qqm-TroRkTuaoQ&oe=69957C2A ' },
-                    { full: 'นางสาววรัญญา รัตนวงศ์', nick: 'แพนเค้ก', role: 'กราฟิก', ig: '@warany.aa', img: 'https://scontent.fbkk22-8.fna.fbcdn.net/v/t1.15752-9/614266932_1268584281747960_8106293737969050890_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=0024fc&_nc_ohc=81aoYhFgobMQ7kNvwErMd5s&_nc_oc=AdkkIFBJLXUH5YJ6qc8pqF4eF8T7NaJo9Q_JXzurl_TECeSco_qQeZPsTkTa_CClAQ0&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-8.fna&oh=03_Q7cD4QGiPbKHuzefvCgH7A1x7uu_cbF81EANgmn8kEnvCloRZQ&oe=69958BA2' },
+                    { full: 'นางสาววรัญญา รัตนวงศ์', nick: 'แพนเค้ก', role: 'กราฟิก', ig: '@warany.aa', img: 'https://png.pngtree.com/png-vector/20190420/ourlarge/pngtree-question-mark-vector-icon-png-image_963283.jpg' },
                     { full: 'นางสาวสุนิสา สาริก', nick: 'น้อยหน่า', role: 'กราฟิก', ig: '@sunisaaa.sr', img: 'https://instagram.fbkk22-6.fna.fbcdn.net/v/t1.15752-9/619657600_905515845265613_7477591031632246377_n.jpg?_nc_cat=104&ccb=7-5&_nc_sid=0024fc&_nc_ohc=bITgMH-3JoUQ7kNvwFKrR08&_nc_oc=Adk6MTEjnXr62GvkdJfXlplUX7JUJMpYJbmHOlA0VLVh0fe5S7KvCcgwqTWG9rLZgLs&_nc_zt=23&_nc_ht=instagram.fbkk22-6.fna&oh=03_Q7cD4QFKvV7f-gnMn-1JnYZFfBI3s1_8GdHjrbGynZ2_cWznJw&oe=69956D91' },
                     { full: 'นายศรัณยพงศ์ ชินะโชติ', nick: 'ฟาร์ม', role: 'กราฟิก', ig: '@thungdokmai_', img: 'https://scontent.fbkk22-4.fna.fbcdn.net/v/t1.15752-9/613635132_857474387272334_2597979030676650572_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=0024fc&_nc_ohc=noKluiO8FNMQ7kNvwH74dbf&_nc_oc=AdmLSoW_Bq39Ggl1A75X7oGWJxXDwyxKezFlSF_dI3eNnrD_FxanjIFwWnjcScJEU4o&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-4.fna&oh=03_Q7cD4QGydcBQmsRT1jRXXQdxuYXOFukmIIzxhCb9l1fcWVb1Vg&oe=69956822' }
                 ]
@@ -254,25 +228,26 @@
             }
         ];
 
-        const container = document.getElementById('dept-container');
+
+        // Nav Render
+        const nav = document.getElementById('navMenu');
+        let navHTML = `<a href="#section-exec" class="nav-item active">EXECUTIVES</a>`;
+        membersData.forEach(d => { navHTML += `<a href="#${d.id}" class="nav-item">${d.deptName}</a>`; });
+        nav.innerHTML = navHTML;
+
+        // Members Render
+        const container = document.getElementById('dynamic-members');
         membersData.forEach(dept => {
-            let html = `
-                <div>
-                    <h2 class="text-xl font-bold mb-8 text-white flex items-center gap-3">
-                        <span class="w-2 h-6 bg-brandRed rounded-full"></span> ${dept.deptName}
-                    </h2>
-                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-            `;
+            let html = `<div id="${dept.id}" class="mb-16"><h2 class="text-zinc-600 font-bold mb-6 tracking-widest text-xs uppercase">/// ${dept.deptName}</h2><div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">`;
             dept.members.forEach(m => {
                 html += `
-                    <div class="member-card rounded-2xl cursor-pointer group" onclick="openModal('${m.full}', '${m.nick}', '${m.role}', '${m.ig}', '${m.img}')">
-                        <div class="aspect-[4/5] relative">
-                            <img src="${m.img}" class="w-full h-full object-cover">
-                            <div class="img-overlay"></div>
+                    <div class="member-card" onclick="openModal('${m.full}', '${m.nick}', '${m.role}', '${m.ig}', '${m.img}')">
+                        <div class="img-box">
+                            <img src="${m.img}" onerror="fallbackImg(this)">
                         </div>
-                        <div class="p-4 relative">
-                            <p class="text-[9px] text-brandOrange font-bold uppercase">${m.role}</p>
-                            <h3 class="text-white text-sm font-bold truncate">${m.full} (${m.nick})</h3>
+                        <div class="name-tag mt-2">
+                            <h3 class="text-xs font-bold text-white">${m.nick}</h3>
+                            <p class="text-[9px] text-zinc-500 uppercase">${m.role}</p>
                         </div>
                     </div>
                 `;
@@ -281,32 +256,29 @@
             container.innerHTML += html;
         });
 
-        const modal = document.getElementById('mSystem');
-        const modalContent = document.getElementById('modalContent');
+        function fallbackImg(img) { img.src = "https://ui-avatars.com/api/?name=Member&background=050505&color=e11d1d"; }
 
         function openModal(full, nick, role, ig, img) {
-            document.getElementById('mName').innerText = full + " (" + nick + ")";
+            document.getElementById('mName').innerText = full;
             document.getElementById('mRole').innerText = role;
             document.getElementById('mImg').src = img;
-            document.getElementById('mIG').href = "https://instagram.com/" + ig.replace('@', '');
-            
-            modal.style.display = 'flex';
-            modal.classList.remove('hidden');
-            setTimeout(() => {
-                modal.classList.add('opacity-100');
-                modalContent.classList.remove('scale-95');
-                modalContent.classList.add('scale-100');
-            }, 10);
+            document.getElementById('mIG').href = "https://instagram.com/" + ig.replace('@','');
+            document.getElementById('mSystem').style.display = 'flex';
         }
 
-        function closeModal() {
-            modalContent.classList.remove('scale-100');
-            modalContent.classList.add('scale-95');
-            setTimeout(() => {
-                modal.classList.add('hidden');
-                modal.style.display = 'none';
-            }, 300);
-        }
+        function closeModal() { document.getElementById('mSystem').style.display = 'none'; }
+
+        // Particles (Upside Down Spores)
+        particlesJS("particles-js", {
+            "particles": {
+                "number": { "value": 50, "density": { "enable": true, "value_area": 800 } },
+                "color": { "value": "#ffffff" },
+                "shape": { "type": "circle" },
+                "opacity": { "value": 0.2, "random": true },
+                "size": { "value": 2, "random": true },
+                "move": { "enable": true, "speed": 1, "direction": "top", "random": true, "straight": false, "out_mode": "out" }
+            }
+        });
     </script>
 </body>
 </html>
