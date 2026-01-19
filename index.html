@@ -5,18 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MEMBERS | SUCSEED 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@200;300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@200;300;400;500;600;800&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        themeRed: '#e11d48',
-                        themeDark: '#0a0a0a',
-                        themeCard: '#171717'
+                        skPink: '#f43f5e', // Rose
+                        skPurple: '#8b5cf6', // Violet
+                        skDark: '#0f0f11', // Rich Black
+                        skCard: '#18181b'  // Zinc 900
                     },
                     fontFamily: {
                         kanit: ['Kanit', 'sans-serif'],
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
                     }
                 }
             }
@@ -26,227 +43,219 @@
         body { 
             font-family: 'Kanit', sans-serif; 
             background-color: #050505; 
-            color: #e5e5e5; 
+            color: #ffffff; 
             overflow-x: hidden;
-            background-image: 
-                linear-gradient(rgba(5, 5, 5, 0.9), rgba(5, 5, 5, 0.95)),
-                url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23222' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
         }
-        
-        /* Smooth Scroll */
-        html { scroll-behavior: smooth; }
+
+        /* พื้นหลังหรูหราแบบ Ambient Glow */
+        .ambient-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: #050505;
+            overflow: hidden;
+        }
+        .glow-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: blob 10s infinite alternate;
+        }
+        .blob-1 { top: -10%; left: -10%; width: 500px; height: 500px; background: #be123c; } /* สีแดงชมพูเข้ม */
+        .blob-2 { bottom: -10%; right: -10%; width: 600px; height: 600px; background: #4c1d95; } /* สีม่วงเข้ม */
+        .blob-3 { top: 40%; left: 30%; width: 400px; height: 400px; background: #0f172a; opacity: 0.8; } /* สีน้ำเงินเข้มตัดเลี่ยน */
+
+        /* Grid Pattern บางๆ ทับ Glow เพื่อความ Tech */
+        .grid-overlay {
+            position: fixed;
+            inset: 0;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Glassmorphism Card */
+        .glass-card {
+            background: rgba(20, 20, 23, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(244, 63, 94, 0.5); /* สีขอบชมพูตอน Hover */
+            background: rgba(30, 30, 35, 0.8);
+            box-shadow: 0 10px 40px -10px rgba(244, 63, 94, 0.3);
+        }
+
+        /* Image Styling */
+        .img-container {
+            position: relative;
+            overflow: hidden;
+            border-bottom: 2px solid transparent; /* เตรียมเส้นขอบล่าง */
+            transition: border-color 0.3s;
+        }
+        .glass-card:hover .img-container {
+            border-bottom-color: #f43f5e;
+        }
+        .profile-img {
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            filter: grayscale(20%); /* ขาวดำนิดเดียวพอ ให้ดูขลัง */
+        }
+        .glass-card:hover .profile-img {
+            transform: scale(1.1);
+            filter: grayscale(0%);
+        }
 
         /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #0a0a0a; }
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #e11d48; }
+        ::-webkit-scrollbar-thumb:hover { background: #f43f5e; }
 
-        /* Card Hover Effects */
-        .member-card {
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-            background: rgba(23, 23, 23, 0.6);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .member-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; height: 100%;
-            background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.8) 100%);
-            z-index: 1;
-            opacity: 0.6;
-            transition: opacity 0.3s;
-        }
-
-        .member-card:hover {
-            transform: translateY(-7px);
-            border-color: #e11d48;
-            box-shadow: 0 10px 30px -10px rgba(225, 29, 72, 0.25);
-        }
-        
-        .member-card:hover::before { opacity: 0.9; }
-
-        .member-card:hover .card-img {
-            transform: scale(1.1);
-            filter: grayscale(0%);
-        }
-        
-        .card-img {
-            transition: transform 0.5s ease;
-            filter: grayscale(100%); /* Start black & white for classy look */
-        }
-        
-        /* Image Container styling */
-        .img-wrapper {
-            aspect-ratio: 3/4;
-            overflow: hidden;
-            position: relative;
-        }
-
-        /* Text reveal effect */
-        .card-info {
-            transform: translateY(10px);
-            transition: transform 0.3s ease;
-            z-index: 10;
-        }
-        .member-card:hover .card-info {
-            transform: translateY(0);
-        }
-
-        /* Modal Animation */
-        .modal {
-            transition: opacity 0.3s ease;
-            backdrop-filter: blur(20px);
-        }
-        .modal-content {
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        /* Red Glow Text */
-        .glow-text {
-            text-shadow: 0 0 20px rgba(225, 29, 72, 0.6);
+        /* Text Gradient */
+        .text-gradient {
+            background: linear-gradient(to right, #f43f5e, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
     </style>
 </head>
-<body class="antialiased selection:bg-rose-500 selection:text-white">
+<body class="antialiased">
 
-    <div id="particles-js" class="fixed inset-0 z-0 pointer-events-none opacity-40"></div>
+    <div class="ambient-bg">
+        <div class="glow-blob blob-1"></div>
+        <div class="glow-blob blob-2"></div>
+        <div class="glow-blob blob-3"></div>
+    </div>
+    <div class="grid-overlay"></div>
 
-    <header class="relative z-10 pt-32 pb-20 text-center px-4">
-        <div class="inline-block relative">
-            <h1 class="text-7xl md:text-8xl font-black italic tracking-tighter text-white mb-2 relative z-10" style="letter-spacing: -0.05em;">
-                SUCSEED <span class="text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-red-700 glow-text">SQUAD</span>
+    <header class="pt-28 pb-16 text-center relative z-10 px-4">
+        <div class="inline-block animate-float">
+            <h1 class="text-6xl md:text-8xl font-black italic tracking-tighter uppercase mb-2 drop-shadow-2xl">
+                SUCSEED <span class="text-gradient">SQUAD</span>
             </h1>
-            <div class="h-1 w-24 bg-rose-600 mx-auto mt-6 mb-4 rounded-full"></div>
         </div>
-        <p class="text-zinc-400 font-bold tracking-[0.4em] text-xs uppercase mt-2">Suankularb Wittayalai Chonburi</p>
+        <div class="flex items-center justify-center gap-3 mt-4">
+            <div class="h-[1px] w-12 bg-zinc-600"></div>
+            <p class="text-zinc-300 font-bold tracking-[0.2em] text-xs md:text-sm uppercase">Suankularb Wittayalai Chonburi</p>
+            <div class="h-[1px] w-12 bg-zinc-600"></div>
+        </div>
     </header>
 
-    <main class="container mx-auto px-6 pb-32 relative z-10 max-w-7xl">
+    <main class="container mx-auto px-4 pb-32 relative z-10 max-w-7xl">
 
-        <div class="mb-24">
-            <div class="flex items-center gap-4 mb-10 justify-center">
-                <div class="h-[1px] w-12 bg-zinc-700"></div>
-                <h2 class="font-bold text-zinc-500 uppercase tracking-widest text-sm">Advisors</h2>
-                <div class="h-[1px] w-12 bg-zinc-700"></div>
+        <div class="mb-20">
+            <div class="flex items-center gap-3 mb-8">
+                <div class="w-1.5 h-8 bg-gradient-to-b from-rose-500 to-purple-600 rounded-full"></div>
+                <h2 class="text-2xl font-bold text-white uppercase tracking-wider">Advisors <span class="text-zinc-500 text-sm font-normal normal-case ml-2">ครูที่ปรึกษา</span></h2>
             </div>
             
-            <div class="grid grid-cols-2 gap-8 max-w-xl mx-auto">
-                <div class="member-card rounded-xl cursor-pointer group" onclick="openModal('ครูจตุพร อาจวาที', 'ครูพร', 'ครูที่ปรึกษา', '---', 'https://www.suanchon.ac.th/math/images/m017.jpg')">
-                    <div class="img-wrapper">
-                        <img src="https://www.suanchon.ac.th/math/images/m017.jpg" class="card-img w-full h-full object-cover">
+            <div class="grid grid-cols-2 gap-6 max-w-2xl mx-auto">
+                <div class="glass-card rounded-xl overflow-hidden cursor-pointer group" onclick="openModal('ครูจตุพร อาจวาที', 'ครูพร', 'ครูที่ปรึกษา', '---', 'https://www.suanchon.ac.th/math/images/m017.jpg')">
+                    <div class="img-container aspect-[3/4]">
+                        <img src="https://www.suanchon.ac.th/math/images/m017.jpg" class="profile-img w-full h-full object-cover">
                     </div>
-                    <div class="card-info absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black via-black/80 to-transparent">
-                        <p class="text-rose-500 text-[10px] font-bold uppercase tracking-wider mb-1">Advisor</p>
-                        <h3 class="text-white text-sm md:text-base font-bold leading-tight">ครูจตุพร อาจวาที</h3>
-                        <p class="text-zinc-400 text-xs mt-1 font-light">(ครูพร)</p>
+                    <div class="p-4 text-center bg-black/40">
+                        <p class="text-rose-400 text-[10px] font-bold uppercase mb-1">Advisor</p>
+                        <h3 class="font-bold text-sm md:text-lg leading-tight">ครูจตุพร อาจวาที</h3>
                     </div>
                 </div>
-                <div class="member-card rounded-xl cursor-pointer group" onclick="openModal('ครูกุลธิดา สมบูรณ์ยิ่ง', 'ครูอิ้ง', 'ครูที่ปรึกษา', '---', 'https://www.suanchon.ac.th/guidance/images/gd002.jpg')">
-                    <div class="img-wrapper">
-                        <img src="https://www.suanchon.ac.th/guidance/images/gd002.jpg" class="card-img w-full h-full object-cover">
+                <div class="glass-card rounded-xl overflow-hidden cursor-pointer group" onclick="openModal('ครูกุลธิดา สมบูรณ์ยิ่ง', 'ครูอิ้ง', 'ครูที่ปรึกษา', '---', 'https://www.suanchon.ac.th/guidance/images/gd002.jpg')">
+                    <div class="img-container aspect-[3/4]">
+                        <img src="https://www.suanchon.ac.th/guidance/images/gd002.jpg" class="profile-img w-full h-full object-cover">
                     </div>
-                    <div class="card-info absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black via-black/80 to-transparent">
-                        <p class="text-rose-500 text-[10px] font-bold uppercase tracking-wider mb-1">Advisor</p>
-                        <h3 class="text-white text-sm md:text-base font-bold leading-tight">ครูกุลธิดา สมบูรณ์ยิ่ง</h3>
-                        <p class="text-zinc-400 text-xs mt-1 font-light">(ครูอิ้ง)</p>
+                    <div class="p-4 text-center bg-black/40">
+                        <p class="text-rose-400 text-[10px] font-bold uppercase mb-1">Advisor</p>
+                        <h3 class="font-bold text-sm md:text-lg leading-tight">ครูกุลธิดา สมบูรณ์ยิ่ง</h3>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="mb-24">
-             <div class="flex items-center gap-4 mb-10 justify-center">
-                <div class="h-[1px] w-12 bg-zinc-700"></div>
-                <h2 class="font-bold text-white uppercase tracking-widest text-lg glow-text">Executives</h2>
-                <div class="h-[1px] w-12 bg-zinc-700"></div>
+            <div class="flex items-center gap-3 mb-8 justify-center md:justify-start">
+                 <div class="w-1.5 h-8 bg-gradient-to-b from-purple-500 to-rose-600 rounded-full hidden md:block"></div>
+                 <h2 class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-zinc-400 uppercase tracking-widest italic">Executives Team</h2>
             </div>
-            
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 max-w-4xl mx-auto">
-                <div class="member-card rounded-xl cursor-pointer group border-rose-900/30" onclick="openModal('ณัฐณิชา โตกำแพง', 'หยก', 'ประธาน', '@rlawjdalf_', 'https://scontent.fbkk29-6.fna.fbcdn.net/v/t1.15752-9/613870729_1681805516162144_2729521324442702921_n.png?_nc_cat=109&ccb=1-7&_nc_sid=0024fc&_nc_ohc=THvC-rsi-SQQ7kNvwFcUdpR&_nc_oc=AdleQJloy_2TS88raDIXfl0nomWY1cgRf6jJvihsjs-SVEurnHZOKhpYoYnyBqrFM_o&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk29-6.fna&oh=03_Q7cD4QEStWeA002q9Cl8uTmgWso26TeV6KuOz9PlAKTPGH7MMA&oe=6992710A')">
-                    <div class="img-wrapper">
-                        <img src="https://scontent.fbkk29-6.fna.fbcdn.net/v/t1.15752-9/613870729_1681805516162144_2729521324442702921_n.png?_nc_cat=109&ccb=1-7&_nc_sid=0024fc&_nc_ohc=THvC-rsi-SQQ7kNvwFcUdpR&_nc_oc=AdleQJloy_2TS88raDIXfl0nomWY1cgRf6jJvihsjs-SVEurnHZOKhpYoYnyBqrFM_o&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk29-6.fna&oh=03_Q7cD4QEStWeA002q9Cl8uTmgWso26TeV6KuOz9PlAKTPGH7MMA&oe=6992710A" class="card-img w-full h-full object-cover">
+
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 max-w-5xl mx-auto">
+                <div class="glass-card rounded-2xl overflow-hidden cursor-pointer relative" onclick="openModal('ณัฐณิชา โตกำแพง', 'หยก', 'ประธาน', '@rlawjdalf_', 'https://scontent.fbkk29-6.fna.fbcdn.net/v/t1.15752-9/613870729_1681805516162144_2729521324442702921_n.png?_nc_cat=109&ccb=1-7&_nc_sid=0024fc&_nc_ohc=THvC-rsi-SQQ7kNvwFcUdpR&_nc_oc=AdleQJloy_2TS88raDIXfl0nomWY1cgRf6jJvihsjs-SVEurnHZOKhpYoYnyBqrFM_o&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk29-6.fna&oh=03_Q7cD4QEStWeA002q9Cl8uTmgWso26TeV6KuOz9PlAKTPGH7MMA&oe=6992710A')">
+                    <div class="absolute top-3 right-3 z-10 bg-rose-600 text-white text-[10px] font-black px-2 py-1 rounded shadow-lg uppercase tracking-wider">President</div>
+                    
+                    <div class="img-container aspect-[3/4]">
+                        <img src="https://scontent.fbkk29-6.fna.fbcdn.net/v/t1.15752-9/613870729_1681805516162144_2729521324442702921_n.png?_nc_cat=109&ccb=1-7&_nc_sid=0024fc&_nc_ohc=THvC-rsi-SQQ7kNvwFcUdpR&_nc_oc=AdleQJloy_2TS88raDIXfl0nomWY1cgRf6jJvihsjs-SVEurnHZOKhpYoYnyBqrFM_o&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk29-6.fna&oh=03_Q7cD4QEStWeA002q9Cl8uTmgWso26TeV6KuOz9PlAKTPGH7MMA&oe=6992710A" class="profile-img w-full h-full object-cover">
                     </div>
-                    <div class="card-info absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-rose-950/90 via-black/80 to-transparent border-t border-rose-500/20">
-                        <p class="text-rose-500 text-[10px] font-black uppercase tracking-wider mb-1">President</p>
-                        <h3 class="text-white text-base font-bold">ณัฐณิชา โตกำแพง</h3>
-                        <p class="text-zinc-400 text-xs mt-0.5">(หยก)</p>
+                    <div class="p-4 bg-gradient-to-b from-transparent to-black/80">
+                        <h3 class="text-white text-lg font-bold">ณัฐณิชา โตกำแพง</h3>
+                        <p class="text-zinc-400 text-sm">(หยก)</p>
                     </div>
                 </div>
 
-                <div class="member-card rounded-xl cursor-pointer group" onclick="openModal('ธาวา พัชรนรากุล', 'โตโน่', 'รองประธาน', '@_tononaja_', 'https://scontent.fbkk29-5.fna.fbcdn.net/v/t1.15752-9/612247838_1253824166643530_4341460234555443409_n.png?_nc_cat=107&ccb=1-7&_nc_sid=0024fc&_nc_ohc=zlSIbcHydlkQ7kNvwHVsBB4&_nc_oc=Adn_AvDQBkE4H8_iO0ia3gNR8IGdN5lYD3XyXOnM8Ycm4OyIxpCmqCrzA7hB7K5gKJ4&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk29-5.fna&oh=03_Q7cD4QG4tTOnoXXzJ3IZPaoP0D0P-NkJzvWipyVwS-C-KXvXIw&oe=69926CAC')">
-                    <div class="img-wrapper">
-                        <img src="https://scontent.fbkk29-5.fna.fbcdn.net/v/t1.15752-9/612247838_1253824166643530_4341460234555443409_n.png?_nc_cat=107&ccb=1-7&_nc_sid=0024fc&_nc_ohc=zlSIbcHydlkQ7kNvwHVsBB4&_nc_oc=Adn_AvDQBkE4H8_iO0ia3gNR8IGdN5lYD3XyXOnM8Ycm4OyIxpCmqCrzA7hB7K5gKJ4&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk29-5.fna&oh=03_Q7cD4QG4tTOnoXXzJ3IZPaoP0D0P-NkJzvWipyVwS-C-KXvXIw&oe=69926CAC" class="card-img w-full h-full object-cover">
+                 <div class="glass-card rounded-2xl overflow-hidden cursor-pointer relative" onclick="openModal('ธาวา พัชรนรากุล', 'โตโน่', 'รองประธาน', '@_tononaja_', 'https://scontent.fbkk29-5.fna.fbcdn.net/v/t1.15752-9/612247838_1253824166643530_4341460234555443409_n.png?_nc_cat=107&ccb=1-7&_nc_sid=0024fc&_nc_ohc=zlSIbcHydlkQ7kNvwHVsBB4&_nc_oc=Adn_AvDQBkE4H8_iO0ia3gNR8IGdN5lYD3XyXOnM8Ycm4OyIxpCmqCrzA7hB7K5gKJ4&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk29-5.fna&oh=03_Q7cD4QG4tTOnoXXzJ3IZPaoP0D0P-NkJzvWipyVwS-C-KXvXIw&oe=69926CAC')">
+                    <div class="absolute top-3 right-3 z-10 bg-zinc-700 text-white text-[10px] font-black px-2 py-1 rounded shadow-lg uppercase tracking-wider">Vice President</div>
+                    <div class="img-container aspect-[3/4]">
+                        <img src="https://scontent.fbkk29-5.fna.fbcdn.net/v/t1.15752-9/612247838_1253824166643530_4341460234555443409_n.png?_nc_cat=107&ccb=1-7&_nc_sid=0024fc&_nc_ohc=zlSIbcHydlkQ7kNvwHVsBB4&_nc_oc=Adn_AvDQBkE4H8_iO0ia3gNR8IGdN5lYD3XyXOnM8Ycm4OyIxpCmqCrzA7hB7K5gKJ4&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk29-5.fna&oh=03_Q7cD4QG4tTOnoXXzJ3IZPaoP0D0P-NkJzvWipyVwS-C-KXvXIw&oe=69926CAC" class="profile-img w-full h-full object-cover">
                     </div>
-                    <div class="card-info absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black via-black/80 to-transparent">
-                        <p class="text-zinc-500 text-[10px] font-black uppercase tracking-wider mb-1 group-hover:text-rose-500 transition-colors">Vice President</p>
-                        <h3 class="text-white text-base font-bold">ธาวา พัชรนรากุล</h3>
-                        <p class="text-zinc-400 text-xs mt-0.5">(โตโน่)</p>
+                    <div class="p-4 bg-gradient-to-b from-transparent to-black/80">
+                        <h3 class="text-white text-lg font-bold">ธาวา พัชรนรากุล</h3>
+                        <p class="text-zinc-400 text-sm">(โตโน่)</p>
                     </div>
                 </div>
 
-                <div class="member-card rounded-xl cursor-pointer group" onclick="openModal('กฤติยา ทัพซ้าย', 'จูน', 'เลขานุการ', '@juneee_.un', 'https://scontent.fbkk29-7.fna.fbcdn.net/v/t1.15752-9/611956706_885130144099206_590462641228853843_n.png?_nc_cat=106&ccb=1-7&_nc_sid=0024fc&_nc_ohc=1H3QZXdpRWMQ7kNvwHM0MXw&_nc_oc=AdkzHQ7bUb9TtIXBiZxwXHUyncwt_PWw1hm3X8IIwS0kfIb4B0XccPOMkRzJ90KNCkc&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk29-7.fna&oh=03_Q7cD4QHjYuSli-nMej680yl47raD1aRrNHDtxxF-T8z15Azv6Q&oe=69924DF9')">
-                    <div class="img-wrapper">
-                        <img src="https://scontent.fbkk29-7.fna.fbcdn.net/v/t1.15752-9/611956706_885130144099206_590462641228853843_n.png?_nc_cat=106&ccb=1-7&_nc_sid=0024fc&_nc_ohc=1H3QZXdpRWMQ7kNvwHM0MXw&_nc_oc=AdkzHQ7bUb9TtIXBiZxwXHUyncwt_PWw1hm3X8IIwS0kfIb4B0XccPOMkRzJ90KNCkc&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk29-7.fna&oh=03_Q7cD4QHjYuSli-nMej680yl47raD1aRrNHDtxxF-T8z15Azv6Q&oe=69924DF9" class="card-img w-full h-full object-cover">
+                <div class="glass-card rounded-2xl overflow-hidden cursor-pointer relative" onclick="openModal('กฤติยา ทัพซ้าย', 'จูน', 'เลขานุการ', '@juneee_.un', 'https://scontent.fbkk29-7.fna.fbcdn.net/v/t1.15752-9/611956706_885130144099206_590462641228853843_n.png?_nc_cat=106&ccb=1-7&_nc_sid=0024fc&_nc_ohc=1H3QZXdpRWMQ7kNvwHM0MXw&_nc_oc=AdkzHQ7bUb9TtIXBiZxwXHUyncwt_PWw1hm3X8IIwS0kfIb4B0XccPOMkRzJ90KNCkc&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk29-7.fna&oh=03_Q7cD4QHjYuSli-nMej680yl47raD1aRrNHDtxxF-T8z15Azv6Q&oe=69924DF9')">
+                    <div class="absolute top-3 right-3 z-10 bg-zinc-700 text-white text-[10px] font-black px-2 py-1 rounded shadow-lg uppercase tracking-wider">Secretary</div>
+                    <div class="img-container aspect-[3/4]">
+                        <img src="https://scontent.fbkk29-7.fna.fbcdn.net/v/t1.15752-9/611956706_885130144099206_590462641228853843_n.png?_nc_cat=106&ccb=1-7&_nc_sid=0024fc&_nc_ohc=1H3QZXdpRWMQ7kNvwHM0MXw&_nc_oc=AdkzHQ7bUb9TtIXBiZxwXHUyncwt_PWw1hm3X8IIwS0kfIb4B0XccPOMkRzJ90KNCkc&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk29-7.fna&oh=03_Q7cD4QHjYuSli-nMej680yl47raD1aRrNHDtxxF-T8z15Azv6Q&oe=69924DF9" class="profile-img w-full h-full object-cover">
                     </div>
-                    <div class="card-info absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black via-black/80 to-transparent">
-                        <p class="text-zinc-500 text-[10px] font-black uppercase tracking-wider mb-1 group-hover:text-rose-500 transition-colors">Secretary</p>
-                        <h3 class="text-white text-base font-bold">กฤติยา ทัพซ้าย</h3>
-                        <p class="text-zinc-400 text-xs mt-0.5">(จูน)</p>
+                    <div class="p-4 bg-gradient-to-b from-transparent to-black/80">
+                        <h3 class="text-white text-lg font-bold">กฤติยา ทัพซ้าย</h3>
+                        <p class="text-zinc-400 text-sm">(จูน)</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div id="dynamic-members" class="space-y-20"></div>
+        <div id="dynamic-members" class="space-y-16"></div>
 
     </main>
 
-    <footer class="bg-black border-t border-zinc-900 py-10 text-center relative z-10">
-        <p class="text-zinc-600 text-xs uppercase tracking-widest">&copy; 2026 SUCSEED SQUAD. All rights reserved.</p>
-    </footer>
-
-    <div id="mSystem" class="modal fixed inset-0 z-50 hidden bg-black/90 items-center justify-center p-4" onclick="closeModal()">
-        <div class="modal-content relative bg-zinc-900 w-full max-w-sm rounded-2xl overflow-hidden transform scale-95 opacity-0 transition-all duration-300" id="modalCard" onclick="event.stopPropagation()">
+    <div id="mSystem" class="fixed inset-0 z-50 hidden bg-black/95 backdrop-blur-sm items-center justify-center p-4 transition-opacity duration-300 opacity-0" onclick="closeModal()">
+        <div class="relative w-full max-w-sm bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden shadow-2xl transform scale-95 transition-transform duration-300" id="modalCard" onclick="event.stopPropagation()">
+            <div class="h-28 bg-gradient-to-r from-rose-600 to-purple-700"></div>
             
-            <div class="h-32 bg-gradient-to-br from-rose-900 to-black relative">
-                <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-30 mix-blend-overlay"></div>
-                <button onclick="closeModal()" class="absolute top-4 right-4 text-white/50 hover:text-white transition">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
-
-            <div class="px-6 pb-8 -mt-12 text-center relative z-10">
-                <div class="w-24 h-24 mx-auto mb-4 p-1 bg-zinc-900 rounded-full shadow-2xl">
-                    <img id="mImg" src="" class="w-full h-full object-cover rounded-full border-2 border-zinc-700">
+            <div class="px-6 pb-8 relative">
+                <div class="-mt-14 mb-4">
+                    <img id="mImg" src="" class="w-28 h-28 object-cover rounded-full border-4 border-zinc-900 shadow-xl mx-auto">
                 </div>
                 
-                <p id="mRole" class="text-rose-500 text-[10px] font-black uppercase tracking-[0.2em] mb-2"></p>
-                <h3 id="mName" class="text-2xl font-bold text-white mb-6"></h3>
-                
-                <div class="space-y-3">
-                    <a id="mIG" href="#" target="_blank" class="flex items-center justify-center gap-2 w-full bg-white text-black py-3 rounded-lg font-bold text-xs uppercase hover:bg-rose-600 hover:text-white hover:border-rose-600 transition duration-300 group">
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-                        <span>Instagram Profile</span>
+                <div class="text-center">
+                    <span id="mRole" class="inline-block px-3 py-1 bg-zinc-800 text-rose-400 text-[10px] font-black uppercase tracking-wider rounded-full mb-3">Role</span>
+                    <h3 id="mName" class="text-2xl font-bold text-white mb-6"></h3>
+                    
+                    <a id="mIG" href="#" target="_blank" class="flex items-center justify-center gap-2 w-full bg-white text-black py-3 rounded-xl font-bold text-sm hover:bg-rose-500 hover:text-white transition-colors duration-300">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                        <span>Follow on Instagram</span>
                     </a>
                 </div>
             </div>
+            
+            <button onclick="closeModal()" class="absolute top-3 right-3 text-white/70 hover:text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
         const membersData = [
             {
                 deptName: 'Coordinators',
-                color: 'red',
+                color: 'from-blue-500 to-cyan-400', // โทนฟ้าสดใส
                 members: [
 		  { full: 'นางสาวใบข้าว เปี่ยมทองคำ', nick: 'ใบข้าว', role: 'หัวหน้าประสานงาน', ig: '@bqnclz9', img: 'https://scontent.fbkk22-1.fna.fbcdn.net/v/t1.15752-9/614556512_1951762112361554_4434134717209643794_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=0024fc&_nc_ohc=CpLc6acW5XkQ7kNvwGBRysE&_nc_oc=AdkBYlqKuLEK8-h5o7JO3KH81Q5pSFwJKgPY3JGToCdqLscDxuCZJkwqvwsU6SNM6Cc&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-1.fna&oh=03_Q7cD4QETo39pJRg0rnx7LqgUUNITGndDGrl3RsL6wDlwkHfvFQ&oe=69958321' },
                     { full: 'นางสาวชุติการณ์ สมสายฝน', nick: 'กิ้บ', role: 'ประสานงาน', ig: '@9czusi.k', img: 'https://scontent.fbkk22-1.fna.fbcdn.net/v/t1.15752-9/614140381_2145877699554229_39352695626633711_n.png?_nc_cat=101&ccb=1-7&_nc_sid=0024fc&_nc_ohc=zydfckKgnAQQ7kNvwHnCBYQ&_nc_oc=AdlV3YxJTGm4wGDMxnJDqXDVF7mMSywXwLQggtFlKwWD_oePhv_DDJNH0fO7l6NOuOg&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-1.fna&oh=03_Q7cD4QG9VQAggJlXye3EfK90wXcbc-Mjc4lxTZ49j7VHFoDleA&oe=69955C01' },
@@ -256,7 +265,7 @@
             },
             {
                 deptName: 'Graphic Design',
-                color: 'zinc-500',
+                color: 'from-purple-500 to-pink-500', // โทนม่วงครีเอทีฟ
                 members: [
                     { full: 'นางสาวบุญญาลักษณ์ ปัสสาภัย', nick: 'บิว', role: 'หัวหน้ากราฟิก', ig: '@b4eau._', img: 'https://scontent.fbkk22-8.fna.fbcdn.net/v/t1.15752-9/616273406_876537755288986_4593297966536245672_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=0024fc&_nc_ohc=gncCgQD5P04Q7kNvwE_WxIg&_nc_oc=AdlkNxShew0QbbUuOIOnMw2CIL_yIz9DnxuH2IBhYqgABkmvtdaInVNuCeww7S86lxY&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-8.fna&oh=03_Q7cD4QGT5_bA00m2p0UHyqPGk8TB3PILMrQ4h1760Rr17ncOKA&oe=69957ECC' },
                     { full: 'นางสาวอนัญญา ชัยเจริญ', nick: 'จีน', role: 'กราฟิก', ig: '@jiessw_', img: 'https://scontent.fbkk22-7.fna.fbcdn.net/v/t1.15752-9/617232293_858744133814180_1129247604010465529_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=0024fc&_nc_ohc=HpiuqLkvoxMQ7kNvwEI0fpe&_nc_oc=Admw4zZeSelZzQIoEZB6wrKjywBgygl5a1dEfz4gARp6XwzRgUA7VXjdqBPrUf0Zn4U&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-7.fna&oh=03_Q7cD4QHgRuwf-NJxUbgGcZEJpxnmWGvAKRE9qqm-TroRkTuaoQ&oe=69957C2A ' },
@@ -267,7 +276,7 @@
             },
             {
                 deptName: 'Facilities',
-                color: 'red',
+                color: 'from-orange-500 to-red-500', // โทนส้มแดงแข็งแกร่ง
                 members: [
                     { full: 'นายภานุวัตร สมาจักร์', nick: 'บอล', role: 'หัวหน้าสถานที่', ig: '@b4nwxq_', img: 'https://scontent.fbkk22-1.fna.fbcdn.net/v/t1.15752-9/619206441_1274833807808521_873936233185417972_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=0024fc&_nc_ohc=08bC9I9NIAQQ7kNvwHkBQK0&_nc_oc=AdlBm9j5VKA-M3hBNtvNI8LyAwIKACUPfduFeYFXbZn7PYYWV_6_kJoD1LQUW3F0SVA&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-1.fna&oh=03_Q7cD4QEFYeNreYPR5D0VMCRGOohDzkY5BqZ542WHQ2jj3nGq-g&oe=69957EFC' },
                     { full: 'นายวชิรวิช แสนขัติ', nick: 'ภีม', role: 'สถานที่', ig: '@cupjuan', img: 'https://scontent.fbkk22-4.fna.fbcdn.net/v/t1.15752-9/615562974_1962376051157813_2370650213135344413_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=0024fc&_nc_ohc=JHJzJYeG2fkQ7kNvwFJa_pA&_nc_oc=AdnouxpF3FHVoGpykBohpzqm35TrW2LulaD2hYOjJ_Q18ub-5gxqChWA_hT4pXTd2_Y&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-4.fna&oh=03_Q7cD4QE3H537vlU3N_Ha1XSGKXK9pOIIcXrl_uOIhgTA_yaARQ&oe=69957E15' },
@@ -278,7 +287,7 @@
             },
             {
                 deptName: 'Activities',
-                color: 'zinc-500',
+                color: 'from-emerald-400 to-green-600', // โทนเขียวสนุกสนาน
                 members: [
                     { full: 'นางสาวเอมี่ อมิตา ลิม', nick: 'เอมี่', role: 'หัวหน้ากิจกรรม', ig: '@amyamitalim_', img: 'https://scontent.fbkk29-5.fna.fbcdn.net/v/t1.15752-9/598767345_1273989277890277_7332196792638551124_n.png?_nc_cat=107&ccb=1-7&_nc_sid=0024fc&_nc_ohc=U3LuunZUauoQ7kNvwFuu4wC&_nc_oc=AdlZdK7KlNyqYRegY4jEs43xP1gECmkGchHUJxN_-WscjAivUw_oiO6uxsVh5ujOe-E&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk29-5.fna&oh=03_Q7cD4QG5H8x0XJLDw1w4AkoTjoHnHrfcxkG70pvfcJG9wo2d-A&oe=69927D47' },
                     { full: 'นางสาวปาณิสรา โชติประทุม', nick: 'เปียโน', role: 'กิจกรรม', ig: '@pianonaa_z', img: 'https://scontent.fbkk22-4.fna.fbcdn.net/v/t1.15752-9/615775583_2301931256980532_45461144035716475_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=0024fc&_nc_ohc=VFwZsr1taYYQ7kNvwGK8qwq&_nc_oc=AdlaW0xDjFh_LytEua7r09htmWsTNbTpkDbI3gFG6xlf9lFQZ8DrkhkJFzahsOq4u6Y&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-4.fna&oh=03_Q7cD4QG5uQIsJHPRmlpQO85aCV2GxFcXZpOZ0Bz7iWZ4GE9xog&oe=6995717E' },
@@ -288,7 +297,7 @@
             },
             {
                 deptName: 'Supplies',
-                color: 'red',
+                color: 'from-amber-400 to-orange-500', // โทนเหลืองพัสดุ
                 members: [
                     { full: 'นางสาวกมลชนก หัสดร', nick: 'พู่', role: 'หัวหน้าพัสดุ', ig: '@maym.ay316', img: 'https://scontent.fbkk22-3.fna.fbcdn.net/v/t1.15752-9/617426105_851153761154192_1269541045050402475_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=0024fc&_nc_ohc=LQ59YVppEEQQ7kNvwGCh6e5&_nc_oc=AdnLOd5VmTu9mToKpzOlyPRZ_odI1zZN68CAVGnQoJczgFisHUIFKpTMDFi27xse1ME&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-3.fna&oh=03_Q7cD4QFlAPlB2nKIC9YRlXXR4k4VhDpwSBPxEVmDHyTrZc8OQA&oe=6995856A' },
                     { full: 'นางสาวพรพิมล ลาดนอก', nick: 'ฟาง', role: 'พัสดุ', ig: '@st_rgja_', img: 'https://scontent.fbkk22-4.fna.fbcdn.net/v/t1.15752-9/618700675_2005305866693233_3393277571038797462_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=0024fc&_nc_ohc=lNc3PcN1YeoQ7kNvwHTTCR8&_nc_oc=AdmkDPJU6TaepuOpz0J3UUVpy69OEHs6RYbatkrO_D-i_TVcaLrNeC3Jzy8zF47USok&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-4.fna&oh=03_Q7cD4QFBepB0-p5VAm-W_FQkx3Dl2DCRSh_dEphzTZW89Ld_7A&oe=69955237' }
@@ -296,7 +305,7 @@
             },
             {
                 deptName: 'Finance & PR',
-                color: 'zinc-500',
+                color: 'from-pink-500 to-rose-500', // โทนชมพูการเงิน/PR
                 members: [
                     { full: 'นางสาวกันยากร หงษ์พงษ์', nick: 'แพรวา', role: 'หัวหน้าการเงิน', ig: '@ig', img: 'https://scontent.fbkk22-1.fna.fbcdn.net/v/t1.15752-9/614130750_900455236492299_326854567994468699_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=0024fc&_nc_ohc=s95Dmgvkv10Q7kNvwH_4ndl&_nc_oc=Admlelp1lswAXLB5f4hh4OAf91XugPrDcxbFA8ewZhvnZycKziRmxqOPU4vznRoJZJ8&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-1.fna&oh=03_Q7cD4QEqOPio_f8ZJMRc6_MquGiebR59rbs2UrJKnf3hFw0M-g&oe=69956DA5' },
                     { full: 'นางสาวศศิธร ศรีวิเชียร', nick: 'ปาล์ม', role: 'หัวหน้าฝ่ายประชาสัมพันธ์', ig: '@ig', img: 'https://scontent.fbkk22-8.fna.fbcdn.net/v/t1.15752-9/617537012_1186032643726107_2487819309527582171_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=0024fc&_nc_ohc=pO2d-Hy_VBAQ7kNvwFlZhsX&_nc_oc=AdmGPXr5j-3LWSopnUU9YB4148jTXZQ-iSwH5HUj_ynlTUybjgczWZCWp9QapryuIL4&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-8.fna&oh=03_Q7cD4QHG-xlNZowNoDApLGF2tuePW0uzlZHpmcRMpsGF078INA&oe=6995802B' },
@@ -311,24 +320,26 @@
             let html = `
                 <div class="department-section">
                     <div class="flex items-center gap-4 mb-8">
-                        <span class="text-3xl font-black text-rose-800/40">${numStr}</span>
+                        <div class="w-12 h-12 flex items-center justify-center rounded-xl bg-gradient-to-br ${dept.color} shadow-lg shadow-${dept.color.split('-')[1]}-500/20">
+                            <span class="text-xl font-black text-white">${numStr}</span>
+                        </div>
                         <h2 class="text-2xl font-bold text-white uppercase tracking-wider">${dept.deptName}</h2>
-                        <div class="h-[1px] flex-grow bg-gradient-to-r from-rose-900/50 to-transparent"></div>
+                        <div class="h-[1px] flex-grow bg-zinc-800"></div>
                     </div>
                     <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
             `;
             dept.members.forEach(m => {
                 const isHead = m.role.includes('หัวหน้า');
-                // หัวหน้าจะมีขอบแดงจางๆ ลูกน้องจะกลืนๆ
-                const borderColor = isHead ? 'border-rose-500/30 shadow-[0_0_15px_rgba(225,29,72,0.1)]' : 'border-zinc-800';
+                // ไฮไลท์หัวหน้าให้เด่นขึ้น
+                const cardBorder = isHead ? `border-${dept.color.split('-')[1]}-500` : 'border-transparent';
                 
                 html += `
-                    <div class="member-card rounded-lg cursor-pointer group ${borderColor}" onclick="openModal('${m.full}', '${m.nick}', '${m.role}', '${m.ig}', '${m.img}')">
-                        <div class="img-wrapper bg-zinc-900">
-                            <img src="${m.img}" class="card-img w-full h-full object-cover">
+                    <div class="glass-card rounded-xl overflow-hidden cursor-pointer group relative" onclick="openModal('${m.full}', '${m.nick}', '${m.role}', '${m.ig}', '${m.img}')">
+                        <div class="img-container aspect-[3/4]">
+                            <img src="${m.img}" class="profile-img w-full h-full object-cover">
                         </div>
-                        <div class="card-info absolute bottom-0 left-0 w-full p-3 bg-black/90 backdrop-blur-md border-t border-zinc-800">
-                            <p class="text-[9px] font-bold leading-none mb-1 uppercase ${isHead ? 'text-rose-500' : 'text-zinc-500'}">${m.role}</p>
+                        <div class="absolute bottom-0 inset-x-0 p-3 bg-gradient-to-t from-black via-black/80 to-transparent">
+                            <p class="text-[9px] font-bold leading-none mb-1 uppercase text-zinc-400 group-hover:text-white transition-colors">${m.role}</p>
                             <p class="text-xs font-bold text-white truncate">${m.full}</p>
                         </div>
                     </div>
@@ -338,60 +349,36 @@
             container.innerHTML += html;
         });
 
-        /* Particles Config - Slower, More Premium */
-        particlesJS("particles-js", {
-            "particles": {
-                "number": { "value": 30 },
-                "color": { "value": "#ffffff" },
-                "shape": { "type": "circle" },
-                "opacity": { "value": 0.1 },
-                "size": { "value": 3 },
-                "line_linked": {
-                    "enable": true,
-                    "distance": 150,
-                    "color": "#e11d48",
-                    "opacity": 0.05,
-                    "width": 1
-                },
-                "move": { "enable": true, "speed": 0.5 }
-            }
-        });
+        // Modal Logic
+        const modal = document.getElementById('mSystem');
+        const card = document.getElementById('modalCard');
 
         function openModal(full, nick, role, ig, img) {
             document.getElementById('mName').innerText = full + " (" + nick + ")";
             document.getElementById('mRole').innerText = role;
-            // Handle IG Link
+            
             const igUser = ig.replace('@', '');
             const igLink = document.getElementById('mIG');
             igLink.href = "https://instagram.com/" + igUser;
-            igLink.querySelector('span').innerText = igUser;
             
             document.getElementById('mImg').src = img;
             
-            const modal = document.getElementById('mSystem');
-            const card = document.getElementById('modalCard');
-            
-            modal.style.display = 'flex'; // Use flex to center
+            modal.style.display = 'flex';
             modal.classList.remove('hidden');
-            
-            // Trigger animation
             setTimeout(() => {
                 modal.classList.remove('opacity-0');
-                card.classList.remove('scale-95', 'opacity-0');
-                card.classList.add('scale-100', 'opacity-100');
+                card.classList.remove('scale-95');
+                card.classList.add('scale-100');
             }, 10);
         }
 
         function closeModal() {
-            const modal = document.getElementById('mSystem');
-            const card = document.getElementById('modalCard');
-            
             modal.classList.add('opacity-0');
-            card.classList.remove('scale-100', 'opacity-100');
-            card.classList.add('scale-95', 'opacity-0');
-            
+            card.classList.remove('scale-100');
+            card.classList.add('scale-95');
             setTimeout(() => {
                 modal.classList.add('hidden');
+                modal.style.display = 'none';
             }, 300);
         }
     </script>
