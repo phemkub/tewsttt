@@ -2,111 +2,155 @@
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MEMBERS | SUCSEED 2026</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SUCSEED SQUAD 2026 | THE UPSIDE DOWN</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,300;0,700;1,900&family=EB+Garamond:ital,wght@1,800&family=Oswald:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        body { font-family: 'Kanit', sans-serif; background-color: #000000; color: white; overflow-x: hidden; }
-        .grunge-bg { background-image: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.95)), url('https://www.transparenttextures.com/patterns/carbon-fibre.png'); }
-        #particles-js { position: fixed; width: 100%; height: 100%; top: 0; left: 0; z-index: 0; }
-        .member-card { background-color: transparent; cursor: pointer; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; z-index: 10; }
-        .member-card:hover { transform: scale(1.05) translateY(-5px); filter: drop-shadow(0 0 10px rgba(225, 29, 72, 0.3)); }
-        .image-container { border: 4px solid; aspect-ratio: 3/4; overflow: hidden; position: relative; }
-        .image-container::after { content: ""; position: absolute; top: -100%; left: -100%; width: 50%; height: 300%; background: rgba(255, 255, 255, 0.1); transform: rotate(45deg); transition: all 0.6s; }
-        .member-card:hover .image-container::after { left: 150%; }
-        .border-red { border-color: #e11d48; }
-        .border-white { border-color: #ffffff; }
-        .info-strip { padding: 10px 5px; text-align: center; }
-        .bg-red-strip { background-color: #e11d48; }
-        .bg-black-strip { background-color: #111111; }
-        .modal { display: none; position: fixed; z-index: 1000; inset: 0; background: rgba(0,0,0,0.95); backdrop-filter: blur(15px); align-items: center; justify-content: center; }
-        .modal-content { background: #111; border: 2px solid #e11d48; padding: 2.5rem; width: 90%; max-width: 350px; text-align: center; animation: pop 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
-        @keyframes pop { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        :root {
+            --stranger-red: #e11d1d;
+            --glow-red: rgba(225, 29, 29, 0.7);
+        }
 
-        /* Demogorgon Styles */
-        .demogorgon-container {
-            position: fixed;
-            bottom: -10px;
-            left: -250px; 
-            width: 180px; 
-            z-index: 50; 
-            pointer-events: none;
-            filter: drop-shadow(0 0 10px #e11d48) brightness(0.7);
-            animation: walkingDemo 25s linear infinite;
+        body { 
+            background-color: #050505; 
+            color: #eee; 
+            font-family: 'Kanit', sans-serif; 
+            overflow-x: hidden;
         }
-        @keyframes walkingDemo {
-            0% { left: -250px; transform: scaleX(1); }
-            48% { transform: scaleX(1); }
-            50% { left: 105%; transform: scaleX(-1); }
-            98% { transform: scaleX(-1); }
-            100% { left: -250px; transform: scaleX(1); }
+
+        /* เอฟเฟกต์เส้นโทรทัศน์เก่า (VHS Scanlines) */
+        .vhs-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
+            background-size: 100% 4px; pointer-events: none; z-index: 100; opacity: 0.2;
         }
-        .flicker-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(225, 29, 72, 0.04);
-            pointer-events: none;
-            z-index: 45;
-            display: none;
+
+        /* ฟอนต์หัวเว็บ Stranger Things Style */
+        .stranger-title {
+            font-family: 'EB Garamond', serif;
+            font-size: clamp(3rem, 15vw, 6rem);
+            color: transparent;
+            -webkit-text-stroke: 1.5px var(--stranger-red);
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            font-style: italic;
+            filter: drop-shadow(0 0 15px var(--glow-red));
+            line-height: 0.8;
+            display: block;
         }
-        @keyframes lightFlicker {
-            0%, 18%, 22%, 25%, 53%, 57%, 100% { opacity: 0; }
-            20%, 24%, 55% { opacity: 1; }
+
+        /* ปรับโทนรูป (Cinematic 80s Filter) */
+        .img-box img {
+            width: 100%; height: 100%; object-fit: cover;
+            /* โทนสี: คมชัด, ติดโทนอุ่นเล็กน้อย, ไม่ขาวดำ */
+            filter: contrast(1.1) brightness(0.9) saturate(1.1) sepia(0.05);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
+        .member-card:hover .img-box img {
+            filter: contrast(1) brightness(1.1) saturate(1.2) sepia(0);
+            transform: scale(1.05);
+        }
+
+        .img-box {
+            position: relative; aspect-ratio: 3/4; overflow: hidden;
+            border: 1px solid #222;
+        }
+
+        .member-card:hover .img-box {
+            border-color: var(--stranger-red);
+            box-shadow: 0 0 20px var(--glow-red);
+        }
+
+        .name-tag {
+            background: linear-gradient(90deg, #111, #050505);
+            border-left: 3px solid var(--stranger-red);
+            padding: 8px 12px;
+            margin-top: -5px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Navigation */
+        .scrolling-wrapper {
+            display: flex; overflow-x: auto; padding: 15px; gap: 10px;
+            position: sticky; top: 0; z-index: 50;
+            background: rgba(5, 5, 5, 0.95); backdrop-filter: blur(10px);
+            border-bottom: 1px solid #1a1a1a;
+        }
+        .scrolling-wrapper::-webkit-scrollbar { display: none; }
+        .nav-item {
+            flex: 0 0 auto; color: #555; font-weight: bold; font-size: 0.75rem;
+            text-transform: uppercase; letter-spacing: 2px; transition: 0.3s;
+            padding: 5px 15px; border: 1px solid transparent;
+        }
+        .nav-item.active { color: var(--stranger-red); border-color: var(--stranger-red); background: rgba(225, 29, 29, 0.05); }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.95);
+            z-index: 999; display: none; align-items: center; justify-content: center; padding: 20px;
+        }
+        .modal-content {
+            background: #0a0a0a; border: 1px solid var(--stranger-red);
+            width: 100%; max-width: 380px; text-align: center;
+            box-shadow: 0 0 40px rgba(225, 29, 29, 0.3);
+        }
+
+        #particles-js { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
     </style>
 </head>
-<body class="grunge-bg">
+<body>
 
+    <div class="vhs-overlay"></div>
     <div id="particles-js"></div>
 
-    <header class="pt-24 pb-16 text-center relative z-10">
-        <h1 class="text-6xl font-black italic tracking-tighter uppercase">SUCSEED <span class="text-red-600">SQUAD</span></h1>
-        <p class="text-zinc-500 font-bold tracking-[0.3em] text-[10px] mt-2 italic">SUANKULARB WITTAYALAI CHONBURI</p>
+    <header class="relative z-10 pt-16 pb-12 text-center">
+        <span class="stranger-title">SUCSEED</span>
+        <span class="stranger-title" style="font-size: clamp(2rem, 10vw, 4rem); margin-top: -10px;">SQUAD 2026</span>
+        <div class="mt-4 flex justify-center gap-4 text-[10px] tracking-[0.3em] text-zinc-500 uppercase">
+            <span>Chapter Two</span>
+            <span class="text-red-600">●</span>
+            <span>The Election</span>
+        </div>
     </header>
 
-    <main class="container mx-auto px-4 pb-24 relative z-10">
+    <nav class="scrolling-wrapper" id="navMenu"></nav>
 
-        <h2 class="text-center font-bold text-zinc-500 mb-8 uppercase tracking-widest text-sm italic">--- Advisor ---</h2>
-        <div class="grid grid-cols-2 gap-6 max-w-2xl mx-auto mb-20">
-            <div class="member-card" onclick="openModal('ครูจตุพร อาจวาที', 'ครูพร', 'ครูที่ปรึกษา', '---', 'https://www.suanchon.ac.th/math/images/m017.jpg')">
-                <div class="image-container border-white"><img src="https://www.suanchon.ac.th/math/images/m017.jpg" class="w-full h-full object-cover"></div>
-                <div class="info-strip bg-black-strip text-white">
-                    <p class="text-[10px] font-bold leading-none mb-1">ครูที่ปรึกษา</p>
-                    <p class="text-sm font-black">ครูจตุพร อาจวาที (ครูพร)</p>
-                </div>
-            </div>
-            <div class="member-card" onclick="openModal('ครูกุลธิดา สมบูรณ์ยิ่ง', 'ครูอิ้ง', 'ครูที่ปรึกษา', '---', 'https://www.suanchon.ac.th/guidance/images/gd002.jpg')">
-                <div class="image-container border-white"><img src="https://www.suanchon.ac.th/guidance/images/gd002.jpg" class="w-full h-full object-cover"></div>
-                <div class="info-strip bg-black-strip text-white">
-                    <p class="text-[10px] font-bold leading-none mb-1">ครูที่ปรึกษา</p>
-                    <p class="text-sm font-black">ครูกุลธิดา สมบูรณ์ยิ่ง (ครูอิ้ง)</p>
-                </div>
-            </div>
-        </div>
+    <main class="container mx-auto px-6 py-10 relative z-10">
 
-        <h2 class="text-center font-bold text-zinc-500 mb-8 uppercase tracking-widest text-sm italic">--- Executives ---</h2>
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-20">
-            <div class="member-card" onclick="openModal('ณัฐณิชา โตกำแพง', 'หยก', 'ประธาน', '@rlawjdalf_', 'https://scontent.fbkk29-6.fna.fbcdn.net/v/t1.15752-9/613870729_1681805516162144_2729521324442702921_n.png?_nc_cat=109&ccb=1-7&_nc_sid=0024fc&_nc_ohc=THvC-rsi-SQQ7kNvwFcUdpR&_nc_oc=AdleQJloy_2TS88raDIXfl0nomWY1cgRf6jJvihsjs-SVEurnHZOKhpYoYnyBqrFM_o&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk29-6.fna&oh=03_Q7cD4QEStWeA002q9Cl8uTmgWso26TeV6KuOz9PlAKTPGH7MMA&oe=6992710A')">
-                <div class="image-container border-red"><img src="https://scontent.fbkk29-6.fna.fbcdn.net/v/t1.15752-9/613870729_1681805516162144_2729521324442702921_n.png?_nc_cat=109&ccb=1-7&_nc_sid=0024fc&_nc_ohc=THvC-rsi-SQQ7kNvwFcUdpR&_nc_oc=AdleQJloy_2TS88raDIXfl0nomWY1cgRf6jJvihsjs-SVEurnHZOKhpYoYnyBqrFM_o&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk29-6.fna&oh=03_Q7cD4QEStWeA002q9Cl8uTmgWso26TeV6KuOz9PlAKTPGH7MMA&oe=6992710A" class="w-full h-full object-cover"></div>
-                <div class="info-strip bg-red-strip text-white">
-                    <p class="text-[10px] font-bold leading-none mb-1 italic">ประธาน</p>
-                    <p class="text-sm font-black italic uppercase">ณัฐณิชา โตกำแพง (หยก)</p>
+        <div id="section-exec" class="mb-20 scroll-mt-24">
+            <h2 class="text-zinc-600 font-bold mb-10 tracking-[0.5em] text-center text-xs uppercase">/// THE CORE EXECUTIVES</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 items-start">
+                
+                <div class="order-2 md:order-1 member-card" onclick="openModal('ธาวา พัชรนรากุล', 'โตโน่', 'VICE PRESIDENT', '@_tononaja_', 'https://scontent.fbkk29-5.fna.fbcdn.net/v/t1.15752-9/612247838_1253824166643530_4341460234555443409_n.png?_nc_cat=107&ccb=1-7&_nc_sid=0024fc&_nc_ohc=zlSIbcHydlkQ7kNvwHVsBB4&_nc_oc=Adn_AvDQBkE4H8_iO0ia3gNR8IGdN5lYD3XyXOnM8Ycm4OyIxpCmqCrzA7hB7K5gKJ4&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk29-5.fna&oh=03_Q7cD4QG4tTOnoXXzJ3IZPaoP0D0P-NkJzvWipyVwS-C-KXvXIw&oe=69926CAC')">
+                    <div class="img-box"><img src="https://scontent.fbkk29-5.fna.fbcdn.net/v/t1.15752-9/612247838_1253824166643530_4341460234555443409_n.png?_nc_cat=107&ccb=1-7&_nc_sid=0024fc&_nc_ohc=zlSIbcHydlkQ7kNvwHVsBB4&_nc_oc=Adn_AvDQBkE4H8_iO0ia3gNR8IGdN5lYD3XyXOnM8Ycm4OyIxpCmqCrzA7hB7K5gKJ4&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk29-5.fna&oh=03_Q7cD4QG4tTOnoXXzJ3IZPaoP0D0P-NkJzvWipyVwS-C-KXvXIw&oe=69926CAC')"></div>
+                    <div class="name-tag">
+                        <h3 class="text-white font-bold italic">โตโน่ ธาวา</h3>
+                        <p class="text-[10px] text-red-600 font-bold uppercase">VICE PRESIDENT</p>
+                    </div>
                 </div>
-            </div>
-            <div class="member-card" onclick="openModal('ธาวา พัชรนรากุล', 'โตโน่', 'รองประธาน', '@_tononaja_', 'https://scontent.fbkk29-5.fna.fbcdn.net/v/t1.15752-9/612247838_1253824166643530_4341460234555443409_n.png?_nc_cat=107&ccb=1-7&_nc_sid=0024fc&_nc_ohc=zlSIbcHydlkQ7kNvwHVsBB4&_nc_oc=Adn_AvDQBkE4H8_iO0ia3gNR8IGdN5lYD3XyXOnM8Ycm4OyIxpCmqCrzA7hB7K5gKJ4&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk29-5.fna&oh=03_Q7cD4QG4tTOnoXXzJ3IZPaoP0D0P-NkJzvWipyVwS-C-KXvXIw&oe=69926CAC')">
-                <div class="image-container border-white"><img src="https://scontent.fbkk29-5.fna.fbcdn.net/v/t1.15752-9/612247838_1253824166643530_4341460234555443409_n.png?_nc_cat=107&ccb=1-7&_nc_sid=0024fc&_nc_ohc=zlSIbcHydlkQ7kNvwHVsBB4&_nc_oc=Adn_AvDQBkE4H8_iO0ia3gNR8IGdN5lYD3XyXOnM8Ycm4OyIxpCmqCrzA7hB7K5gKJ4&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk29-5.fna&oh=03_Q7cD4QG4tTOnoXXzJ3IZPaoP0D0P-NkJzvWipyVwS-C-KXvXIw&oe=69926CAC" class="w-full h-full object-cover"></div>
-                <div class="info-strip bg-black-strip text-white">
-                    <p class="text-[10px] font-bold leading-none mb-1 italic text-red-600">รองประธาน</p>
-                    <p class="text-sm font-black italic uppercase">ธาวา พัชรนรากุล (โตโน่)</p>
+
+                <div class="order-1 md:order-2 member-card scale-110 md:scale-125 z-20" onclick="openModal('ณัฐณิชา โตกำแพง', 'หยก', 'PRESIDENT', '@rlawjdalf_', 'https://scontent.fbkk29-6.fna.fbcdn.net/v/t1.15752-9/613870729_1681805516162144_2729521324442702921_n.png?_nc_cat=109&ccb=1-7&_nc_sid=0024fc&_nc_ohc=THvC-rsi-SQQ7kNvwFcUdpR&_nc_oc=AdleQJloy_2TS88raDIXfl0nomWY1cgRf6jJvihsjs-SVEurnHZOKhpYoYnyBqrFM_o&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk29-6.fna&oh=03_Q7cD4QEStWeA002q9Cl8uTmgWso26TeV6KuOz9PlAKTPGH7MMA&oe=6992710A')">
+                    <div class="img-box border-red-600 border-2"><img src="https://scontent.fbkk29-6.fna.fbcdn.net/v/t1.15752-9/613870729_1681805516162144_2729521324442702921_n.png?_nc_cat=109&ccb=1-7&_nc_sid=0024fc&_nc_ohc=THvC-rsi-SQQ7kNvwFcUdpR&_nc_oc=AdleQJloy_2TS88raDIXfl0nomWY1cgRf6jJvihsjs-SVEurnHZOKhpYoYnyBqrFM_o&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk29-6.fna&oh=03_Q7cD4QEStWeA002q9Cl8uTmgWso26TeV6KuOz9PlAKTPGH7MMA&oe=6992710A')"></div>
+                    <div class="name-tag">
+                        <h3 class="text-white text-lg font-black italic">หยก ณัฐณิชา</h3>
+                        <p class="text-xs text-red-600 font-black uppercase tracking-tighter">THE PRESIDENT</p>
+                    </div>
                 </div>
-            </div>
-            <div class="member-card" onclick="openModal('กฤติยา ทัพซ้าย', 'จูน', 'เลขานุการ', '@juneee_.un', 'https://scontent.fbkk29-7.fna.fbcdn.net/v/t1.15752-9/611956706_885130144099206_590462641228853843_n.png?_nc_cat=106&ccb=1-7&_nc_sid=0024fc&_nc_ohc=1H3QZXdpRWMQ7kNvwHM0MXw&_nc_oc=AdkzHQ7bUb9TtIXBiZxwXHUyncwt_PWw1hm3X8IIwS0kfIb4B0XccPOMkRzJ90KNCkc&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk29-7.fna&oh=03_Q7cD4QHjYuSli-nMej680yl47raD1aRrNHDtxxF-T8z15Azv6Q&oe=69924DF9')">
-                <div class="image-container border-white"><img src="https://scontent.fbkk29-7.fna.fbcdn.net/v/t1.15752-9/611956706_885130144099206_590462641228853843_n.png?_nc_cat=106&ccb=1-7&_nc_sid=0024fc&_nc_ohc=1H3QZXdpRWMQ7kNvwHM0MXw&_nc_oc=AdkzHQ7bUb9TtIXBiZxwXHUyncwt_PWw1hm3X8IIwS0kfIb4B0XccPOMkRzJ90KNCkc&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk29-7.fna&oh=03_Q7cD4QHjYuSli-nMej680yl47raD1aRrNHDtxxF-T8z15Azv6Q&oe=69924DF9" class="w-full h-full object-cover"></div>
-                <div class="info-strip bg-black-strip text-white">
-                    <p class="text-[10px] font-bold leading-none mb-1 italic text-red-600">เลขานุการ</p>
-                    <p class="text-sm font-black italic uppercase">กฤติยา ทัพซ้าย (จูน)</p>
+
+                <div class="order-3 member-card" onclick="openModal('กฤติยา ทัพซ้าย', 'จูน', 'SECRETARY', '@juneee_.un', 'https://scontent.fbkk29-7.fna.fbcdn.net/v/t1.15752-9/611956706_885130144099206_590462641228853843_n.png?_nc_cat=106&ccb=1-7&_nc_sid=0024fc&_nc_ohc=1H3QZXdpRWMQ7kNvwHM0MXw&_nc_oc=AdkzHQ7bUb9TtIXBiZxwXHUyncwt_PWw1hm3X8IIwS0kfIb4B0XccPOMkRzJ90KNCkc&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk29-7.fna&oh=03_Q7cD4QHjYuSli-nMej680yl47raD1aRrNHDtxxF-T8z15Azv6Q&oe=69924DF9')">
+                    <div class="img-box"><img src="https://scontent.fbkk29-7.fna.fbcdn.net/v/t1.15752-9/611956706_885130144099206_590462641228853843_n.png?_nc_cat=106&ccb=1-7&_nc_sid=0024fc&_nc_ohc=1H3QZXdpRWMQ7kNvwHM0MXw&_nc_oc=AdkzHQ7bUb9TtIXBiZxwXHUyncwt_PWw1hm3X8IIwS0kfIb4B0XccPOMkRzJ90KNCkc&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk29-7.fna&oh=03_Q7cD4QHjYuSli-nMej680yl47raD1aRrNHDtxxF-T8z15Azv6Q&oe=69924DF9')"></div>
+                    <div class="name-tag">
+                        <h3 class="text-white font-bold italic">จูน กฤติยา</h3>
+                        <p class="text-[10px] text-red-600 font-bold uppercase">SECRETARY</p>
+                    </div>
                 </div>
+
             </div>
         </div>
 
@@ -114,134 +158,129 @@
 
     </main>
 
-    <div id="mSystem" class="modal" onclick="closeModal()">
+    <div id="mSystem" class="modal-overlay" onclick="closeModal()">
         <div class="modal-content" onclick="event.stopPropagation()">
-            <div class="w-24 h-24 mx-auto mb-4 border-2 border-red-600 rounded-full overflow-hidden p-1">
-                <img id="mImg" src="" class="w-full h-full object-cover rounded-full">
-            </div>
-            <p id="mRole" class="text-red-600 text-[10px] font-black uppercase tracking-[0.2em] mb-1"></p>
-            <h3 id="mName" class="text-xl font-black italic text-white mb-6"></h3>
-            <div class="space-y-3">
-                <a id="mIG" href="#" target="_blank" class="block bg-white text-black py-2 font-bold text-xs uppercase hover:bg-red-600 hover:text-white transition">Visit Instagram</a>
-                <button onclick="closeModal()" class="text-zinc-500 text-[10px] uppercase font-bold tracking-widest hover:text-white transition">Close</button>
+            <div class="p-1"><img id="mImg" src="" class="w-full aspect-[3/4] object-cover"></div>
+            <div class="p-8">
+                <p id="mRole" class="text-red-600 text-[10px] font-bold tracking-[0.3em] mb-1">DEPARTMENT</p>
+                <h3 id="mName" class="text-2xl font-black text-white italic mb-6">NAME HERE</h3>
+                <a id="mIG" href="#" target="_blank" class="block w-full border border-red-600 py-3 text-red-600 font-bold hover:bg-red-600 hover:text-white transition duration-500 uppercase text-xs tracking-widest">
+                    Access Social Profile
+                </a>
+                <button onclick="closeModal()" class="mt-4 text-zinc-600 text-[10px] uppercase tracking-widest">Return to Surface</button>
             </div>
         </div>
     </div>
 
-    <div class="demogorgon-container">
-        <img src="https://media.giphy.com/media/3o7TKUGccxlaSoOshG/giphy.gif" 
-             alt="Demogorgon" 
-             style="width: 100%;"
-             onerror="this.src='https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHRraHBxd3R6Z3Zxd3R6Z3Zxd3R6Z3Zxd3R6Z3Zxd3R6Z3Zxd3R6Jm09MSZjdD1z/3o7TKUGccxlaSoOshG/giphy.gif'">
-    </div>
-    <div class="flicker-overlay" id="flicker-effect" style="animation: lightFlicker 3s infinite;"></div>
-
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
-        // ข้อมูลสมาชิกจากไฟล์เดิม
         const membersData = [
             {
+                id: 'advisors',
+                deptName: 'Advisors',
+                members: [
+                    { full: 'ครูจตุพร อาจวาที', nick: 'ครูพร', role: 'ADVISOR', ig: '-', img: 'https://www.suanchon.ac.th/math/images/m017.jpg' },
+                    { full: 'ครูกุลธิดา สมบูรณ์ยิ่ง', nick: 'ครูอิ้ง', role: 'ADVISOR', ig: '-', img: 'https://www.suanchon.ac.th/guidance/images/gd002.jpg' }
+                ]
+            },
+            {
+                id: 'coordinators',
                 deptName: 'Coordinators',
-                color: 'red',
                 members: [
-                    { full: 'นางสาวใบข้าว เปี่ยมทองคำ', nick: 'ใบข้าว', role: 'หัวหน้าประสานงาน', ig: '@bqnclz9', img: 'https://scontent.fbkk22-1.fna.fbcdn.net/v/t1.15752-9/614556512_1951762112361554_4434134717209643794_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=0024fc&_nc_ohc=CpLc6acW5XkQ7kNvwGBRysE&_nc_oc=AdkBYlqKuLEK8-h5o7JO3KH81Q5pSFwJKgPY3JGToCdqLscDxuCZJkwqvwsU6SNM6Cc&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-1.fna&oh=03_Q7cD4QETo39pJRg0rnx7LqgUUNITGndDGrl3RsL6wDlwkHfvFQ&oe=69958321' },
-                    { full: 'นางสาวชุติการณ์ สมสายฝน', nick: 'กิ้บ', role: 'ประสานงาน', ig: '@9czusi.k', img: 'https://scontent.fbkk22-1.fna.fbcdn.net/v/t1.15752-9/614140381_2145877699554229_39352695626633711_n.png?_nc_cat=101&ccb=1-7&_nc_sid=0024fc&_nc_ohc=zydfckKgnAQQ7kNvwHnCBYQ&_nc_oc=AdlV3YxJTGm4wGDMxnJDqXDVF7mMSywXwLQggtFlKwWD_oePhv_DDJNH0fO7l6NOuOg&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-1.fna&oh=03_Q7cD4QG9VQAggJlXye3EfK90wXcbc-Mjc4lxTZ49j7VHFoDleA&oe=69955C01' },
-                    { full: 'นางสาวพัทธนันท์ ไกรทอง', nick: 'ออม', role: 'ประสานงาน', ig: '@7augustii', img: 'https://scontent.fbkk22-3.fna.fbcdn.net/v/t1.15752-9/598659798_2875881865938827_5514433900266970277_n.png?_nc_cat=111&ccb=1-7&_nc_sid=0024fc&_nc_ohc=hpVkWWm22acQ7kNvwH7JR11&_nc_oc=AdmIT0aLPmfodqg2rzl1dne4ndwQA0Mc8mu7FnM1zpEYvIacTgiW9feWzV6w6vtwr3c&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-3.fna&oh=03_Q7cD4QFXSUyejhRNMQZ6wOycx2ID1P92HfzJzPJAKWzxEuh1sQ&oe=69957C66' }
+                    { full: 'ใบข้าว เปี่ยมทองคำ', nick: 'ใบข้าว', role: 'HEAD COORDINATOR', ig: '@bqnclz9', img: 'https://scontent.fbkk22-1.fna.fbcdn.net/v/t1.15752-9/614556512_1951762112361554_4434134717209643794_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=0024fc&_nc_ohc=CpLc6acW5XkQ7kNvwGBRysE&_nc_oc=AdkBYlqKuLEK8-h5o7JO3KH81Q5pSFwJKgPY3JGToCdqLscDxuCZJkwqvwsU6SNM6Cc&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-1.fna&oh=03_Q7cD4QETo39pJRg0rnx7LqgUUNITGndDGrl3RsL6wDlwkHfvFQ&oe=69958321' },
+                    { full: 'ชุติการณ์ สมสายฝน', nick: 'กิ้บ', role: 'COORDINATOR', ig: '@9czusi.k', img: 'https://scontent.fbkk22-1.fna.fbcdn.net/v/t1.15752-9/614140381_2145877699554229_39352695626633711_n.png?_nc_cat=101&ccb=1-7&_nc_sid=0024fc&_nc_ohc=zydfckKgnAQQ7kNvwHnCBYQ&_nc_oc=AdlV3YxJTGm4wGDMxnJDqXDVF7mMSywXwLQggtFlKwWD_oePhv_DDJNH0fO7l6NOuOg&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-1.fna&oh=03_Q7cD4QG9VQAggJlXye3EfK90wXcbc-Mjc4lxTZ49j7VHFoDleA&oe=69955C01' },
+                    { full: 'พัทธนันท์ ไกรทอง', nick: 'ออม', role: 'COORDINATOR', ig: '@7augustii', img: 'https://scontent.fbkk22-2.fna.fbcdn.net/v/t1.15752-9/598061250_1229170318590969_747716266068245596_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=0024fc&_nc_ohc=XBw58O0kk70Q7kNvwEvHpqR&_nc_oc=AdloHC7sCX4JLTAoUFRFbAfanOvx-7-PjiIwyCo1XXTo1vYKvACrz5x-jqvS2XVBhww&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-2.fna&oh=03_Q7cD4QFjrsKF0D_Zpg04QOKfmgHYL5x4Q1DrFd5NBWi4s83tiQ&oe=69958847' }
                 ]
             },
             {
-                deptName: 'Graphic Design',
-                color: 'zinc-500',
+                id: 'graphic',
+                deptName: 'Graphic',
                 members: [
-                    { full: 'นางสาวบุญญาลักษณ์ ปัสสาภัย', nick: 'บิว', role: 'หัวหน้ากราฟิก', ig: '@b4eau._', img: 'https://scontent.fbkk22-8.fna.fbcdn.net/v/t1.15752-9/616273406_876537755288986_4593297966536245672_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=0024fc&_nc_ohc=gncCgQD5P04Q7kNvwE_WxIg&_nc_oc=AdlkNxShew0QbbUuOIOnMw2CIL_yIz9DnxuH2IBhYqgABkmvtdaInVNuCeww7S86lxY&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-8.fna&oh=03_Q7cD4QGT5_bA00m2p0UHyqPGk8TB3PILMrQ4h1760Rr17ncOKA&oe=69957ECC' },
-                    { full: 'นางสาวอนัญญา ชัยเจริญ', nick: 'จีน', role: 'กราฟิก', ig: '@jiessw_', img: 'https://scontent.fbkk22-7.fna.fbcdn.net/v/t1.15752-9/617232293_858744133814180_1129247604010465529_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=0024fc&_nc_ohc=HpiuqLkvoxMQ7kNvwEI0fpe&_nc_oc=Admw4zZeSelZzQIoEZB6wrKjywBgygl5a1dEfz4gARp6XwzRgUA7VXjdqBPrUf0Zn4U&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-7.fna&oh=03_Q7cD4QHgRuwf-NJxUbgGcZEJpxnmWGvAKRE9qqm-TroRkTuaoQ&oe=69957C2A ' },
-                    { full: 'นางสาววรัญญา รัตนวงศ์', nick: 'แพนเค้ก', role: 'กราฟิก', ig: '@warany.aa', img: 'https://png.pngtree.com/png-vector/20190420/ourlarge/pngtree-question-mark-vector-icon-png-image_963283.jpg' },
-                    { full: 'นางสาวสุนิสา สาริก', nick: 'น้อยหน่า', role: 'กราฟิก', ig: '@sunisaaa.sr', img: 'https://instagram.fbkk22-6.fna.fbcdn.net/v/t1.15752-9/619657600_905515845265613_7477591031632246377_n.jpg?_nc_cat=104&ccb=7-5&_nc_sid=0024fc&_nc_ohc=bITgMH-3JoUQ7kNvwFKrR08&_nc_oc=Adk6MTEjnXr62GvkdJfXlplUX7JUJMpYJbmHOlA0VLVh0fe5S7KvCcgwqTWG9rLZgLs&_nc_zt=23&_nc_ht=instagram.fbkk22-6.fna&oh=03_Q7cD4QFKvV7f-gnMn-1JnYZFfBI3s1_8GdHjrbGynZ2_cWznJw&oe=69956D91' },
-                    { full: 'นายศรัณยพงศ์ ชินะโชติ', nick: 'ฟาร์ม', role: 'กราฟิก', ig: '@thungdokmai_', img: 'https://scontent.fbkk22-4.fna.fbcdn.net/v/t1.15752-9/613635132_857474387272334_2597979030676650572_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=0024fc&_nc_ohc=noKluiO8FNMQ7kNvwH74dbf&_nc_oc=AdmLSoW_Bq39Ggl1A75X7oGWJxXDwyxKezFlSF_dI3eNnrD_FxanjIFwWnjcScJEU4o&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-4.fna&oh=03_Q7cD4QGydcBQmsRT1jRXXQdxuYXOFukmIIzxhCb9l1fcWVb1Vg&oe=69956822' }
+                    { full: 'บุญญาลักษณ์ ปัสสาภัย', nick: 'บิว', role: 'HEAD GRAPHIC', ig: '@b4eau._', img: 'https://scontent.fbkk22-8.fna.fbcdn.net/v/t1.15752-9/616273406_876537755288986_4593297966536245672_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=0024fc&_nc_ohc=gncCgQD5P04Q7kNvwE_WxIg&_nc_oc=AdlkNxShew0QbbUuOIOnMw2CIL_yIz9DnxuH2IBhYqgABkmvtdaInVNuCeww7S86lxY&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-8.fna&oh=03_Q7cD4QGT5_bA00m2p0UHyqPGk8TB3PILMrQ4h1760Rr17ncOKA&oe=69957ECC' },
+                    { full: 'อนัญญา ชัยเจริญ', nick: 'จีน', role: 'GRAPHIC', ig: '@jiessw_', img: 'https://scontent.fbkk22-7.fna.fbcdn.net/v/t1.15752-9/617232293_858744133814180_1129247604010465529_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=0024fc&_nc_ohc=HpiuqLkvoxMQ7kNvwEI0fpe&_nc_oc=Admw4zZeSelZzQIoEZB6wrKjywBgygl5a1dEfz4gARp6XwzRgUA7VXjdqBPrUf0Zn4U&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-7.fna&oh=03_Q7cD4QHgRuwf-NJxUbgGcZEJpxnmWGvAKRE9qqm-TroRkTuaoQ&oe=69957C2A' },
+                    { full: 'สุนิสา สาริก', nick: 'น้อยหน่า', role: 'GRAPHIC', ig: '@sunisaaa.sr', img: 'https://instagram.fbkk22-6.fna.fbcdn.net/v/t1.15752-9/619657600_905515845265613_7477591031632246377_n.jpg?_nc_cat=104&ccb=7-5&_nc_sid=0024fc&_nc_ohc=bITgMH-3JoUQ7kNvwFKrR08&_nc_oc=Adk6MTEjnXr62GvkdJfXlplUX7JUJMpYJbmHOlA0VLVh0fe5S7KvCcgwqTWG9rLZgLs&_nc_zt=23&_nc_ht=instagram.fbkk22-6.fna&oh=03_Q7cD4QFKvV7f-gnMn-1JnYZFfBI3s1_8GdHjrbGynZ2_cWznJw&oe=69956D91' },
+                    { full: 'ศรัณยพงศ์ ชินะโชติ', nick: 'ฟาร์ม', role: 'GRAPHIC', ig: '@thungdokmai_', img: 'https://scontent.fbkk22-4.fna.fbcdn.net/v/t1.15752-9/613635132_857474387272334_2597979030676650572_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=0024fc&_nc_ohc=noKluiO8FNMQ7kNvwH74dbf&_nc_oc=AdmLSoW_Bq39Ggl1A75X7oGWJxXDwyxKezFlSF_dI3eNnrD_FxanjIFwWnjcScJEU4o&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-4.fna&oh=03_Q7cD4QGydcBQmsRT1jRXXQdxuYXOFukmIIzxhCb9l1fcWVb1Vg&oe=69956822' }
                 ]
             },
             {
+                id: 'facilities',
                 deptName: 'Facilities',
-                color: 'red',
                 members: [
-                    { full: 'นายภานุวัตร สมาจักร์', nick: 'บอล', role: 'หัวหน้าสถานที่', ig: '@b4nwxq_', img: 'https://scontent.fbkk22-1.fna.fbcdn.net/v/t1.15752-9/619206441_1274833807808521_873936233185417972_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=0024fc&_nc_ohc=08bC9I9NIAQQ7kNvwHkBQK0&_nc_oc=AdlBm9j5VKA-M3hBNtvNI8LyAwIKACUPfduFeYFXbZn7PYYWV_6_kJoD1LQUW3F0SVA&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-1.fna&oh=03_Q7cD4QEFYeNreYPR5D0VMCRGOohDzkY5BqZ542WHQ2jj3nGq-g&oe=69957EFC' },
-                    { full: 'นายวชิรวิช แสนขัติ', nick: 'ภีม', role: 'สถานที่', ig: '@cupjuan', img: 'https://scontent.fbkk22-4.fna.fbcdn.net/v/t1.15752-9/615562974_1962376051157813_2370650213135344413_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=0024fc&_nc_ohc=JHJzJYeG2fkQ7kNvwFJa_pA&_nc_oc=AdnouxpF3FHVoGpykBohpzqm35TrW2LulaD2hYOjJ_Q18ub-5gxqChWA_hT4pXTd2_Y&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-4.fna&oh=03_Q7cD4QE3H537vlU3N_Ha1XSGKXK9pOIIcXrl_uOIhgTA_yaARQ&oe=69957E15' },
-                    { full: 'นายรัชพล การุณ', nick: 'รัช', role: 'สถานที่', ig: '@ratchaphonkarun', img: 'https://scontent.fbkk22-4.fna.fbcdn.net/v/t1.15752-9/617559814_863761296554413_2510303778857721910_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=0024fc&_nc_ohc=fcGys3O86I4Q7kNvwH3wafw&_nc_oc=AdnFZgjBeitXwPQRrP134Ah5Y3dkY7RYtg5t9QNy84kwHpXXJE5THc-gLlozDqaBBZQ&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-4.fna&oh=03_Q7cD4QEZOP5RTw6O3jtytnfVvuGUVpnEQTFQqhIlPbXIgD96EA&oe=69957DB2' },
-                    { full: 'นายกฤตเมธ จันละบุตร', nick: 'คิว', role: 'สถานที่', ig: '@kiwxs0z', img: 'https://scontent.fbkk29-8.fna.fbcdn.net/v/t1.15752-9/614469872_2075634229857235_4269454143995163795_n.png?_nc_cat=105&ccb=1-7&_nc_sid=0024fc&_nc_ohc=RUCKW42UnjoQ7kNvwGFeGCI&_nc_oc=AdmujmyQZ6NHn5PtbubkinMnmwvoti5dQfqCxMv8rdBcLvgON-1cZRMeq0Ur9v5xxjo&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk29-8.fna&oh=03_Q7cD4QG-c0VcAMSgnI7E4wYyMkvrQz84sx6vadxbp8EC3YIR-Q&oe=69927DDA' },
-                    { full: 'นายชนัญธร ขจรกุลเจริฐ', nick: 'กาฟิว', role: 'สถานที่', ig: '@chanant0rn._', img: 'https://scontent.fbkk22-6.fna.fbcdn.net/v/t1.15752-9/619592207_2811398732535603_3784912389667189762_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=0024fc&_nc_ohc=29NffKQxLuAQ7kNvwHXVeSU&_nc_oc=AdmFrPQ_53mALuNDWKBlRp-ubdzpPCGyFFJdd9Hv7Je906FeNFVAHQHIHFBVuQ4JsOk&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-6.fna&oh=03_Q7cD4QEaYKnuDMoZFE7Ljvjlmvgrec6QICN-vhIQJuTAFd39RA&oe=699576C7' }
+                    { full: 'ภานุวัตร สมาจักร์', nick: 'บอล', role: 'HEAD FACILITIES', ig: '@b4nwxq_', img: 'https://scontent.fbkk22-1.fna.fbcdn.net/v/t1.15752-9/619206441_1274833807808521_873936233185417972_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=0024fc&_nc_ohc=08bC9I9NIAQQ7kNvwHkBQK0&_nc_oc=AdlBm9j5VKA-M3hBNtvNI8LyAwIKACUPfduFeYFXbZn7PYYWV_6_kJoD1LQUW3F0SVA&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-1.fna&oh=03_Q7cD4QEFYeNreYPR5D0VMCRGOohDzkY5BqZ542WHQ2jj3nGq-g&oe=69957EFC' },
+                    { full: 'วชิรวิช แสนขัติ', nick: 'ภีม', role: 'FACILITIES', ig: '@cupjuan', img: 'https://scontent.fbkk22-4.fna.fbcdn.net/v/t1.15752-9/615562974_1962376051157813_2370650213135344413_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=0024fc&_nc_ohc=JHJzJYeG2fkQ7kNvwFJa_pA&_nc_oc=AdnouxpF3FHVoGpykBohpzqm35TrW2LulaD2hYOjJ_Q18ub-5gxqChWA_hT4pXTd2_Y&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-4.fna&oh=03_Q7cD4QE3H537vlU3N_Ha1XSGKXK9pOIIcXrl_uOIhgTA_yaARQ&oe=69957E15' },
+                    { full: 'รัชพล การุณ', nick: 'รัช', role: 'FACILITIES', ig: '@ratchaphonkarun', img: 'https://scontent.fbkk22-4.fna.fbcdn.net/v/t1.15752-9/617559814_863761296554413_2510303778857721910_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=0024fc&_nc_ohc=fcGys3O86I4Q7kNvwH3wafw&_nc_oc=AdnFZgjBeitXwPQRrP134Ah5Y3dkY7RYtg5t9QNy84kwHpXXJE5THc-gLlozDqaBBZQ&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-4.fna&oh=03_Q7cD4QEZOP5RTw6O3jtytnfVvuGUVpnEQTFQqhIlPbXIgD96EA&oe=69957DB2' },
+                    { full: 'กฤตเมธ จันละบุตร', nick: 'คิว', role: 'FACILITIES', ig: '@kiwxs0z', img: 'https://scontent.fbkk29-8.fna.fbcdn.net/v/t1.15752-9/614469872_2075634229857235_4269454143995163795_n.png?_nc_cat=105&ccb=1-7&_nc_sid=0024fc&_nc_ohc=RUCKW42UnjoQ7kNvwGFeGCI&_nc_oc=AdmujmyQZ6NHn5PtbubkinMnmwvoti5dQfqCxMv8rdBcLvgON-1cZRMeq0Ur9v5xxjo&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk29-8.fna&oh=03_Q7cD4QG-c0VcAMSgnI7E4wYyMkvrQz84sx6vadxbp8EC3YIR-Q&oe=69927DDA' }
                 ]
             },
             {
+                id: 'activities',
                 deptName: 'Activities',
-                color: 'zinc-500',
                 members: [
-                    { full: 'นางสาวเอมี่ อมิตา ลิม', nick: 'เอมี่', role: 'หัวหน้ากิจกรรม', ig: '@amyamitalim_', img: 'https://scontent.fbkk29-5.fna.fbcdn.net/v/t1.15752-9/598767345_1273989277890277_7332196792638551124_n.png?_nc_cat=107&ccb=1-7&_nc_sid=0024fc&_nc_ohc=U3LuunZUauoQ7kNvwFuu4wC&_nc_oc=AdlZdK7KlNyqYRegY4jEs43xP1gECmkGchHUJxN_-WscjAivUw_oiO6uxsVh5ujOe-E&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk29-5.fna&oh=03_Q7cD4QG5H8x0XJLDw1w4AkoTjoHnHrfcxkG70pvfcJG9wo2d-A&oe=69927D47' },
-                    { full: 'นางสาวปาณิสรา โชติประทุม', nick: 'เปียโน', role: 'กิจกรรม', ig: '@pianonaa_z', img: 'https://scontent.fbkk22-4.fna.fbcdn.net/v/t1.15752-9/615775583_2301931256980532_45461144035716475_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=0024fc&_nc_ohc=VFwZsr1taYYQ7kNvwGK8qwq&_nc_oc=AdlaW0xDjFh_LytEua7r09htmWsTNbTpkDbI3gFG6xlf9lFQZ8DrkhkJFzahsOq4u6Y&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-4.fna&oh=03_Q7cD4QG5uQIsJHPRmlpQO85aCV2GxFcXZpOZ0Bz7iWZ4GE9xog&oe=6995717E' },
-                    { full: 'นางสาวเพชรณิชา สินประเสริฐ', nick: 'นิชา', role: 'กิจกรรม', ig: '@niichanyy_', img: 'https://scontent.fbkk22-1.fna.fbcdn.net/v/t1.15752-9/615479425_1380900230345475_4108311508038164859_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=0024fc&_nc_ohc=z1A6zcETBOUQ7kNvwEmcIeq&_nc_oc=AdnusWwJZvgeHduId1eNw61Ql1eq3IIktx5kNPDP7W7fb6MeluDdDeOadQTtbmFJVtI&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-1.fna&oh=03_Q7cD4QGzd6ojCAOFc93gSAOVhex41VeHupymga4X4aS6WaqODA&oe=6995816D' },
-                    { full: 'นางสาวกรวรรณ ภูจีวร', nick: 'น้ำปั่น', role: 'กิจกรรม', ig: '@krw_nppp', img: 'https://scontent.fbkk22-3.fna.fbcdn.net/v/t1.15752-9/614599347_1629662725054134_6960101552227458839_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=0024fc&_nc_ohc=HV_5Ep53-eIQ7kNvwFZBWbd&_nc_oc=AdkaelxFMXZltkQoDgF71Bm2TQ44S1gWrWu0HcUzkfyyfQ_Tq3Jb7STbFzkq2pKwiAY&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-3.fna&oh=03_Q7cD4QEn_iEGK8enkFoAq_jWjduWvCTGqyDqtRsAWpucoMUf8Q&oe=699552D9' }
+                    { full: 'เอมี่ อมิตา ลิม', nick: 'เอมี่', role: 'HEAD ACTIVITIES', ig: '@amyamitalim_', img: 'https://scontent.fbkk29-5.fna.fbcdn.net/v/t1.15752-9/598767345_1273989277890277_7332196792638551124_n.png?_nc_cat=107&ccb=1-7&_nc_sid=0024fc&_nc_ohc=U3LuunZUauoQ7kNvwFuu4wC&_nc_oc=AdlZdK7KlNyqYRegY4jEs43xP1gECmkGchHUJxN_-WscjAivUw_oiO6uxsVh5ujOe-E&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk29-5.fna&oh=03_Q7cD4QG5H8x0XJLDw1w4AkoTjoHnHrfcxkG70pvfcJG9wo2d-A&oe=69927D47' },
+                    { full: 'ปาณิสรา โชติประทุม', nick: 'เปียโน', role: 'ACTIVITIES', ig: '@pianonaa_z', img: 'https://scontent.fbkk22-4.fna.fbcdn.net/v/t1.15752-9/615775583_2301931256980532_45461144035716475_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=0024fc&_nc_ohc=VFwZsr1taYYQ7kNvwGK8qwq&_nc_oc=AdlaW0xDjFh_LytEua7r09htmWsTNbTpkDbI3gFG6xlf9lFQZ8DrkhkJFzahsOq4u6Y&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-4.fna&oh=03_Q7cD4QG5uQIsJHPRmlpQO85aCV2GxFcXZpOZ0Bz7iWZ4GE9xog&oe=6995717E' },
+                    { full: 'เพชรณิชา สินประเสริฐ', nick: 'นิชา', role: 'ACTIVITIES', ig: '@niichanyy_', img: 'https://scontent.fbkk22-1.fna.fbcdn.net/v/t1.15752-9/615479425_1380900230345475_4108311508038164859_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=0024fc&_nc_ohc=z1A6zcETBOUQ7kNvwEmcIeq&_nc_oc=AdnusWwJZvgeHduId1eNw61Ql1eq3IIktx5kNPDP7W7fb6MeluDdDeOadQTtbmFJVtI&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-1.fna&oh=03_Q7cD4QGzd6ojCAOFc93gSAOVhex41VeHupymga4X4aS6WaqODA&oe=6995816D' }
                 ]
             },
             {
-                deptName: 'Supplies',
-                color: 'red',
-                members: [
-                    { full: 'นางสาวกมลชนก หัสดร', nick: 'พู่', role: 'หัวหน้าพัสดุ', ig: '@maym.ay316', img: 'https://scontent.fbkk22-3.fna.fbcdn.net/v/t1.15752-9/617426105_851153761154192_1269541045050402475_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=0024fc&_nc_ohc=LQ59YVppEEQQ7kNvwGCh6e5&_nc_oc=AdnLOd5VmTu9mToKpzOlyPRZ_odI1zZN68CAVGnQoJczgFisHUIFKpTMDFi27xse1ME&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-3.fna&oh=03_Q7cD4QFlAPlB2nKIC9YRlXXR4k4VhDpwSBPxEVmDHyTrZc8OQA&oe=6995856A' },
-                    { full: 'นางสาวพรพิมล ลาดนอก', nick: 'ฟาง', role: 'พัสดุ', ig: '@st_rgja_', img: 'https://scontent.fbkk22-4.fna.fbcdn.net/v/t1.15752-9/618700675_2005305866693233_3393277571038797462_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=0024fc&_nc_ohc=lNc3PcN1YeoQ7kNvwHTTCR8&_nc_oc=AdmkDPJU6TaepuOpz0J3UUVpy69OEHs6RYbatkrO_D-i_TVcaLrNeC3Jzy8zF47USok&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-4.fna&oh=03_Q7cD4QFBepB0-p5VAm-W_FQkx3Dl2DCRSh_dEphzTZW89Ld_7A&oe=69955237' }
-                ]
-            },
-            {
+                id: 'finance-pr',
                 deptName: 'Finance & PR',
-                color: 'zinc-500',
                 members: [
-                    { full: 'นางสาวกันยากร หงษ์พงษ์', nick: 'แพรวา', role: 'หัวหน้าการเงิน', ig: '@ig', img: 'https://scontent.fbkk22-1.fna.fbcdn.net/v/t1.15752-9/614130750_900455236492299_326854567994468699_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=0024fc&_nc_ohc=s95Dmgvkv10Q7kNvwH_4ndl&_nc_oc=Admlelp1lswAXLB5f4hh4OAf91XugPrDcxbFA8ewZhvnZycKziRmxqOPU4vznRoJZJ8&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-1.fna&oh=03_Q7cD4QEqOPio_f8ZJMRc6_MquGiebR59rbs2UrJKnf3hFw0M-g&oe=69956DA5' },
-                    { full: 'นางสาวศศิธร ศรีวิเชียร', nick: 'ปาล์ม', role: 'หัวหน้าฝ่ายประชาสัมพันธ์', ig: '@ig', img: 'https://scontent.fbkk22-8.fna.fbcdn.net/v/t1.15752-9/617537012_1186032643726107_2487819309527582171_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=0024fc&_nc_ohc=pO2d-Hy_VBAQ7kNvwFlZhsX&_nc_oc=AdmGPXr5j-3LWSopnUU9YB4148jTXZQ-iSwH5HUj_ynlTUybjgczWZCWp9QapryuIL4&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-8.fna&oh=03_Q7cD4QHG-xlNZowNoDApLGF2tuePW0uzlZHpmcRMpsGF078INA&oe=6995802B' },
-                    { full: 'นางสาวอภิรตา ขุนทะ', nick: 'นัส', role: 'ฝ่ายประชาสัมพันธ์', ig: '@iwwcyhmd_n', img: 'https://scontent.fbkk22-3.fna.fbcdn.net/v/t1.15752-9/615507254_2157154468434500_6896976951065999428_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=0024fc&_nc_ohc=-cMlkAhWwrUQ7kNvwFWfmO3&_nc_oc=AdkD-Lhw8sZ4MtOxQy15uUqpS4ayBvRPSbG9ZduE4_0Sn-dD9W-ctPpt3QuuI3cDi_w&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-3.fna&oh=03_Q7cD4QF-9C-P9nJV1qi71ciym7NxrgIJjUnXBewqNouwe8IsrQ&oe=6995A35E' }
+                    { full: 'กันยากร หงษ์พงษ์', nick: 'แพรวา', role: 'FINANCE HEAD', ig: '-', img: 'https://scontent.fbkk22-1.fna.fbcdn.net/v/t1.15752-9/614130750_900455236492299_326854567994468699_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=0024fc&_nc_ohc=s95Dmgvkv10Q7kNvwH_4ndl&_nc_oc=Admlelp1lswAXLB5f4hh4OAf91XugPrDcxbFA8ewZhvnZycKziRmxqOPU4vznRoJZJ8&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-1.fna&oh=03_Q7cD4QEqOPio_f8ZJMRc6_MquGiebR59rbs2UrJKnf3hFw0M-g&oe=69956DA5' },
+                    { full: 'ศศิธร ศรีวิเชียร', nick: 'ปาล์ม', role: 'PR HEAD', ig: '-', img: 'https://scontent.fbkk22-8.fna.fbcdn.net/v/t1.15752-9/617537012_1186032643726107_2487819309527582171_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=0024fc&_nc_ohc=pO2d-Hy_VBAQ7kNvwFlZhsX&_nc_oc=AdmGPXr5j-3LWSopnUU9YB4148jTXZQ-iSwH5HUj_ynlTUybjgczWZCWp9QapryuIL4&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-8.fna&oh=03_Q7cD4QHG-xlNZowNoDApLGF2tuePW0uzlZHpmcRMpsGF078INA&oe=6995802B' }
                 ]
             }
         ];
 
+        // Nav Render
+        const nav = document.getElementById('navMenu');
+        let navHTML = `<a href="#section-exec" class="nav-item active">EXECUTIVES</a>`;
+        membersData.forEach(d => { navHTML += `<a href="#${d.id}" class="nav-item">${d.deptName}</a>`; });
+        nav.innerHTML = navHTML;
+
+        // Members Render
         const container = document.getElementById('dynamic-members');
-        membersData.forEach((dept, idx) => {
-            let html = `
-                <h2 class="text-left font-bold text-${dept.color} mb-6 uppercase text-xs tracking-widest italic">0${idx + 3} ${dept.deptName}</h2>
-                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6 mb-20">
-            `;
+        membersData.forEach(dept => {
+            let html = `<div id="${dept.id}" class="mb-20 scroll-mt-24"><h2 class="text-zinc-600 font-bold mb-8 tracking-[0.4em] text-xs uppercase text-center md:text-left">/// ${dept.deptName}</h2><div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">`;
             dept.members.forEach(m => {
-                const isHead = m.role.includes('หัวหน้า');
-                const borderColor = isHead ? 'border-red' : 'border-white';
-                const stripColor = isHead ? 'bg-red-strip' : 'bg-black-strip';
+                const isHead = m.role.includes('HEAD');
                 html += `
                     <div class="member-card" onclick="openModal('${m.full}', '${m.nick}', '${m.role}', '${m.ig}', '${m.img}')">
-                        <div class="image-container ${borderColor}"><img src="${m.img}" class="w-full h-full object-cover"></div>
-                        <div class="info-strip ${stripColor} text-white">
-                            <p class="text-[9px] font-bold leading-none mb-1 uppercase">${m.role}</p>
-                            <p class="text-xs font-black">${m.full} (${m.nick})</p>
+                        <div class="img-box ${isHead ? 'border-red-900' : ''}">
+                            <img src="${m.img}" onerror="this.src='https://ui-avatars.com/api/?name=${m.nick}&background=050505&color=e11d1d'">
+                        </div>
+                        <div class="name-tag">
+                            <h3 class="text-[11px] font-bold text-white truncate">${m.nick}</h3>
+                            <p class="text-[9px] text-zinc-500 uppercase">${m.role}</p>
                         </div>
                     </div>
                 `;
             });
-            html += `</div>`;
+            html += `</div></div>`;
             container.innerHTML += html;
         });
 
-        particlesJS("particles-js", { "particles": { "number": { "value": 40 }, "color": { "value": "#e11d48" }, "shape": { "type": "circle" }, "opacity": { "value": 0.3 }, "size": { "value": 2 }, "line_linked": { "enable": true, "distance": 150, "color": "#e11d48", "opacity": 0.1, "width": 1 }, "move": { "enable": true, "speed": 1.5 } } });
-
         function openModal(full, nick, role, ig, img) {
-            document.getElementById('mName').innerText = full + " (" + nick + ")";
+            document.getElementById('mName').innerText = full;
             document.getElementById('mRole').innerText = role;
-            document.getElementById('mIG').innerText = "IG: " + ig;
-            document.getElementById('mIG').href = "https://instagram.com/" + ig.replace('@', '');
             document.getElementById('mImg').src = img;
+            const cleanIg = ig.replace('@','');
+            document.getElementById('mIG').href = ig === '-' ? '#' : "https://instagram.com/" + cleanIg;
+            document.getElementById('mIG').innerText = ig === '-' ? 'NO ACCESS' : "FOLLOW @" + cleanIg;
             document.getElementById('mSystem').style.display = 'flex';
         }
+
         function closeModal() { document.getElementById('mSystem').style.display = 'none'; }
 
-        // ระบบสุ่มไฟกะพริบ
-        setInterval(() => {
-            const flicker = document.getElementById('flicker-effect');
-            flicker.style.display = 'block';
-            setTimeout(() => { flicker.style.display = 'none'; }, 4000);
-        }, 12000);
+        // Particles (Upside Down Floating Spores)
+        particlesJS("particles-js", {
+            "particles": {
+                "number": { "value": 60, "density": { "enable": true, "value_area": 800 } },
+                "color": { "value": "#ffffff" },
+                "opacity": { "value": 0.2, "random": true },
+                "size": { "value": 2, "random": true },
+                "move": { "enable": true, "speed": 1, "direction": "top", "random": true, "straight": false, "out_mode": "out" }
+            }
+        });
     </script>
 </body>
 </html>
