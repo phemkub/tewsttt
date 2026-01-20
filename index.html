@@ -10,18 +10,54 @@
         body { font-family: 'Kanit', sans-serif; background-color: #000000; color: white; overflow-x: hidden; }
         .grunge-bg { background-image: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.95)), url('https://www.transparenttextures.com/patterns/carbon-fibre.png'); }
         #particles-js { position: fixed; width: 100%; height: 100%; top: 0; left: 0; z-index: 0; }
-        .member-card { background-color: transparent; cursor: pointer; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; z-index: 10; }
-        .member-card:hover { transform: scale(1.05) translateY(-5px); filter: drop-shadow(0 0 10px rgba(225, 29, 72, 0.3)); }
-        .image-container { border: 4px solid; aspect-ratio: 3/4; overflow: hidden; position: relative; }
-        .image-container::after { content: ""; position: absolute; top: -100%; left: -100%; width: 50%; height: 300%; background: rgba(255, 255, 255, 0.1); transform: rotate(45deg); transition: all 0.6s; }
+        
+        /* Card Styling */
+        .member-card { background-color: transparent; cursor: pointer; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; z-index: 10; }
+        .member-card:hover { transform: translateY(-10px) scale(1.02); filter: drop-shadow(0 0 15px rgba(225, 29, 72, 0.5)); }
+        
+        /* Image Container Fixes - แก้รูปไม่ลอยกรอบ */
+        .image-container { 
+            border-width: 3px; 
+            border-style: solid; 
+            aspect-ratio: 3/4; 
+            overflow: hidden; 
+            position: relative; 
+            background: #111; /* พื้นหลังกันภาพโปร่งแสง */
+        }
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block; /* แก้ปัญหาช่องว่างใต้ภาพ */
+            transition: transform 0.5s ease;
+        }
+        .member-card:hover .image-container img {
+            transform: scale(1.1); /* Zoom effect when hover */
+        }
+
+        /* Shine Effect */
+        .image-container::after { content: ""; position: absolute; top: -100%; left: -100%; width: 50%; height: 300%; background: rgba(255, 255, 255, 0.15); transform: rotate(45deg); transition: all 0.6s; pointer-events: none; }
         .member-card:hover .image-container::after { left: 150%; }
+
+        /* Borders */
         .border-red { border-color: #e11d48; }
         .border-white { border-color: #ffffff; }
-        .info-strip { padding: 10px 5px; text-align: center; }
+        
+        /* President Special Style - ประธานเด่น */
+        .president-card { transform: scale(1.1); margin-bottom: 2rem; }
+        .president-card .image-container { border-color: #e11d48; box-shadow: 0 0 20px rgba(225, 29, 72, 0.4); border-width: 5px; }
+        .president-card:hover { transform: scale(1.15) translateY(-5px); }
+        
+        /* Info Strips */
+        .info-strip { padding: 12px 5px; text-align: center; position: relative; margin-top: -1px; /* ดึง strip ขึ้นมาให้ชิดขอบรูป */ }
         .bg-red-strip { background-color: #e11d48; }
-        .bg-black-strip { background-color: #111111; }
+        .bg-black-strip { background-color: #111111; border: 3px solid; border-top: none; }
+        .border-b-white { border-color: white; }
+        .border-b-red { border-color: #e11d48; }
+
+        /* Modal */
         .modal { display: none; position: fixed; z-index: 1000; inset: 0; background: rgba(0,0,0,0.95); backdrop-filter: blur(15px); align-items: center; justify-content: center; }
-        .modal-content { background: #111; border: 2px solid #e11d48; padding: 2.5rem; width: 90%; max-width: 350px; text-align: center; animation: pop 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+        .modal-content { background: #111; border: 2px solid #e11d48; padding: 2.5rem; width: 90%; max-width: 350px; text-align: center; animation: pop 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); box-shadow: 0 0 30px rgba(225, 29, 72, 0.2); }
         @keyframes pop { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
     </style>
 </head>
@@ -30,8 +66,8 @@
     <div id="particles-js"></div>
 
     <header class="pt-24 pb-16 text-center relative z-10">
-        <h1 class="text-6xl font-black italic tracking-tighter uppercase">SUCSEED <span class="text-red-600">SQUAD</span></h1>
-        <p class="text-zinc-500 font-bold tracking-[0.3em] text-[10px] mt-2 italic">SUANKULARB WITTAYALAI CHONBURI</p>
+        <h1 class="text-6xl md:text-8xl font-black italic tracking-tighter uppercase drop-shadow-lg">SUCSEED <span class="text-red-600">SQUAD</span></h1>
+        <p class="text-zinc-500 font-bold tracking-[0.3em] text-[10px] md:text-xs mt-2 italic">SUANKULARB WITTAYALAI CHONBURI</p>
     </header>
 
     <main class="container mx-auto px-4 pb-24 relative z-10">
@@ -39,40 +75,44 @@
         <h2 class="text-center font-bold text-zinc-500 mb-8 uppercase tracking-widest text-sm italic">--- Advisor ---</h2>
         <div class="grid grid-cols-2 gap-6 max-w-2xl mx-auto mb-20">
             <div class="member-card" onclick="openModal('ครูจตุพร อาจวาที', 'ครูพร', 'ครูที่ปรึกษา', '---', 'https://www.suanchon.ac.th/math/images/m017.jpg')">
-                <div class="image-container border-white"><img src="https://www.suanchon.ac.th/math/images/m017.jpg" class="w-full h-full object-cover"></div>
-                <div class="info-strip bg-black-strip text-white">
-                    <p class="text-[10px] font-bold leading-none mb-1">ครูที่ปรึกษา</p>
+                <div class="image-container border-white"><img src="https://www.suanchon.ac.th/math/images/m017.jpg"></div>
+                <div class="info-strip bg-black-strip border-b-white text-white">
+                    <p class="text-[10px] font-bold leading-none mb-1 text-zinc-400">ครูที่ปรึกษา</p>
                     <p class="text-sm font-black">ครูจตุพร อาจวาที (ครูพร)</p>
                 </div>
             </div>
             <div class="member-card" onclick="openModal('ครูกุลธิดา สมบูรณ์ยิ่ง', 'ครูอิ้ง', 'ครูที่ปรึกษา', '---', 'https://www.suanchon.ac.th/guidance/images/gd002.jpg')">
-                <div class="image-container border-white"><img src="https://www.suanchon.ac.th/guidance/images/gd002.jpg" class="w-full h-full object-cover"></div>
-                <div class="info-strip bg-black-strip text-white">
-                    <p class="text-[10px] font-bold leading-none mb-1">ครูที่ปรึกษา</p>
+                <div class="image-container border-white"><img src="https://www.suanchon.ac.th/guidance/images/gd002.jpg"></div>
+                <div class="info-strip bg-black-strip border-b-white text-white">
+                    <p class="text-[10px] font-bold leading-none mb-1 text-zinc-400">ครูที่ปรึกษา</p>
                     <p class="text-sm font-black">ครูกุลธิดา สมบูรณ์ยิ่ง (ครูอิ้ง)</p>
                 </div>
             </div>
         </div>
 
-        <h2 class="text-center font-bold text-zinc-500 mb-8 uppercase tracking-widest text-sm italic">--- Executives ---</h2>
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-20">
-            <div class="member-card" onclick="openModal('ณัฐณิชา โตกำแพง', 'หยก', 'ประธาน', '@rlawjdalf_', 'https://scontent.fbkk29-6.fna.fbcdn.net/v/t1.15752-9/613870729_1681805516162144_2729521324442702921_n.png?_nc_cat=109&ccb=1-7&_nc_sid=0024fc&_nc_ohc=THvC-rsi-SQQ7kNvwFcUdpR&_nc_oc=AdleQJloy_2TS88raDIXfl0nomWY1cgRf6jJvihsjs-SVEurnHZOKhpYoYnyBqrFM_o&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk29-6.fna&oh=03_Q7cD4QEStWeA002q9Cl8uTmgWso26TeV6KuOz9PlAKTPGH7MMA&oe=6992710A')">
-                <div class="image-container border-red"><img src="https://scontent.fbkk29-6.fna.fbcdn.net/v/t1.15752-9/613870729_1681805516162144_2729521324442702921_n.png?_nc_cat=109&ccb=1-7&_nc_sid=0024fc&_nc_ohc=THvC-rsi-SQQ7kNvwFcUdpR&_nc_oc=AdleQJloy_2TS88raDIXfl0nomWY1cgRf6jJvihsjs-SVEurnHZOKhpYoYnyBqrFM_o&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk29-6.fna&oh=03_Q7cD4QEStWeA002q9Cl8uTmgWso26TeV6KuOz9PlAKTPGH7MMA&oe=6992710A"></div>
+        <h2 class="text-center font-bold text-red-600 mb-10 uppercase tracking-widest text-xl italic drop-shadow-md">--- Executives Board ---</h2>
+        
+        <div class="flex justify-center w-full mb-8">
+            <div class="member-card president-card w-64 md:w-72" onclick="openModal('ณัฐณิชา โตกำแพง', 'หยก', 'ประธาน', '@rlawjdalf_', 'https://scontent.fbkk29-6.fna.fbcdn.net/v/t1.15752-9/613870729_1681805516162144_2729521324442702921_n.png?_nc_cat=109&ccb=1-7&_nc_sid=0024fc&_nc_ohc=THvC-rsi-SQQ7kNvwFcUdpR&_nc_oc=AdleQJloy_2TS88raDIXfl0nomWY1cgRf6jJvihsjs-SVEurnHZOKhpYoYnyBqrFM_o&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk29-6.fna&oh=03_Q7cD4QEStWeA002q9Cl8uTmgWso26TeV6KuOz9PlAKTPGH7MMA&oe=6992710A')">
+                <div class="image-container"><img src="https://scontent.fbkk29-6.fna.fbcdn.net/v/t1.15752-9/613870729_1681805516162144_2729521324442702921_n.png?_nc_cat=109&ccb=1-7&_nc_sid=0024fc&_nc_ohc=THvC-rsi-SQQ7kNvwFcUdpR&_nc_oc=AdleQJloy_2TS88raDIXfl0nomWY1cgRf6jJvihsjs-SVEurnHZOKhpYoYnyBqrFM_o&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk29-6.fna&oh=03_Q7cD4QEStWeA002q9Cl8uTmgWso26TeV6KuOz9PlAKTPGH7MMA&oe=6992710A"></div>
                 <div class="info-strip bg-red-strip text-white">
-                    <p class="text-[10px] font-bold leading-none mb-1 italic">ประธาน</p>
-                    <p class="text-sm font-black italic uppercase">ณัฐณิชา โตกำแพง (หยก)</p>
+                    <p class="text-[11px] font-bold leading-none mb-1 italic text-black">PRESIDENT</p>
+                    <p class="text-lg font-black italic uppercase">ณัฐณิชา โตกำแพง (หยก)</p>
                 </div>
             </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-6 max-w-2xl mx-auto mb-24">
             <div class="member-card" onclick="openModal('ธาวา พัชรนรากุล', 'โตโน่', 'รองประธาน', '@_tononaja_', 'https://scontent.fbkk29-5.fna.fbcdn.net/v/t1.15752-9/612247838_1253824166643530_4341460234555443409_n.png?_nc_cat=107&ccb=1-7&_nc_sid=0024fc&_nc_ohc=zlSIbcHydlkQ7kNvwHVsBB4&_nc_oc=Adn_AvDQBkE4H8_iO0ia3gNR8IGdN5lYD3XyXOnM8Ycm4OyIxpCmqCrzA7hB7K5gKJ4&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk29-5.fna&oh=03_Q7cD4QG4tTOnoXXzJ3IZPaoP0D0P-NkJzvWipyVwS-C-KXvXIw&oe=69926CAC')">
-                <div class="image-container border-white"><img src="https://scontent.fbkk29-5.fna.fbcdn.net/v/t1.15752-9/612247838_1253824166643530_4341460234555443409_n.png?_nc_cat=107&ccb=1-7&_nc_sid=0024fc&_nc_ohc=zlSIbcHydlkQ7kNvwHVsBB4&_nc_oc=Adn_AvDQBkE4H8_iO0ia3gNR8IGdN5lYD3XyXOnM8Ycm4OyIxpCmqCrzA7hB7K5gKJ4&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk29-5.fna&oh=03_Q7cD4QG4tTOnoXXzJ3IZPaoP0D0P-NkJzvWipyVwS-C-KXvXIw&oe=69926CAC" class="w-full h-full object-cover"></div>
-                <div class="info-strip bg-black-strip text-white">
+                <div class="image-container border-white"><img src="https://scontent.fbkk29-5.fna.fbcdn.net/v/t1.15752-9/612247838_1253824166643530_4341460234555443409_n.png?_nc_cat=107&ccb=1-7&_nc_sid=0024fc&_nc_ohc=zlSIbcHydlkQ7kNvwHVsBB4&_nc_oc=Adn_AvDQBkE4H8_iO0ia3gNR8IGdN5lYD3XyXOnM8Ycm4OyIxpCmqCrzA7hB7K5gKJ4&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk29-5.fna&oh=03_Q7cD4QG4tTOnoXXzJ3IZPaoP0D0P-NkJzvWipyVwS-C-KXvXIw&oe=69926CAC"></div>
+                <div class="info-strip bg-black-strip border-b-white text-white">
                     <p class="text-[10px] font-bold leading-none mb-1 italic text-red-600">รองประธาน</p>
                     <p class="text-sm font-black italic uppercase">ธาวา พัชรนรากุล (โตโน่)</p>
                 </div>
             </div>
             <div class="member-card" onclick="openModal('กฤติยา ทัพซ้าย', 'จูน', 'เลขานุการ', '@juneee_.un', 'https://scontent.fbkk33-3.fna.fbcdn.net/v/t1.15752-9/616940351_33321938694120365_6928995341038038247_n.png?_nc_cat=103&ccb=1-7&_nc_sid=0024fc&_nc_ohc=tns97yGCp6IQ7kNvwHFyTR2&_nc_oc=AdmFTsC8cTS-ZJnDCBv72hS42TEiV878po3bmrnpM6tLr-Zi30LTxPZCdM1n69tJbd0&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk33-3.fna&oh=03_Q7cD4QEWHprmWloKAk0zZbiqpadzSpFsCCNXvz_WzuvNg0YYKQ&oe=6996E310')">
-                <div class="image-container border-white"><img src="https://scontent.fbkk33-3.fna.fbcdn.net/v/t1.15752-9/616940351_33321938694120365_6928995341038038247_n.png?_nc_cat=103&ccb=1-7&_nc_sid=0024fc&_nc_ohc=tns97yGCp6IQ7kNvwHFyTR2&_nc_oc=AdmFTsC8cTS-ZJnDCBv72hS42TEiV878po3bmrnpM6tLr-Zi30LTxPZCdM1n69tJbd0&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk33-3.fna&oh=03_Q7cD4QEWHprmWloKAk0zZbiqpadzSpFsCCNXvz_WzuvNg0YYKQ&oe=6996E310></div>
-                <div class="info-strip bg-black-strip text-white">
+                <div class="image-container border-white"><img src="https://scontent.fbkk33-3.fna.fbcdn.net/v/t1.15752-9/616940351_33321938694120365_6928995341038038247_n.png?_nc_cat=103&ccb=1-7&_nc_sid=0024fc&_nc_ohc=tns97yGCp6IQ7kNvwHFyTR2&_nc_oc=AdmFTsC8cTS-ZJnDCBv72hS42TEiV878po3bmrnpM6tLr-Zi30LTxPZCdM1n69tJbd0&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk33-3.fna&oh=03_Q7cD4QEWHprmWloKAk0zZbiqpadzSpFsCCNXvz_WzuvNg0YYKQ&oe=6996E310"></div>
+                <div class="info-strip bg-black-strip border-b-white text-white">
                     <p class="text-[10px] font-bold leading-none mb-1 italic text-red-600">เลขานุการ</p>
                     <p class="text-sm font-black italic uppercase">กฤติยา ทัพซ้าย (จูน)</p>
                 </div>
@@ -85,13 +125,13 @@
 
     <div id="mSystem" class="modal" onclick="closeModal()">
         <div class="modal-content" onclick="event.stopPropagation()">
-            <div class="w-24 h-24 mx-auto mb-4 border-2 border-red-600 rounded-full overflow-hidden p-1">
+            <div class="w-24 h-24 mx-auto mb-4 border-2 border-red-600 rounded-full overflow-hidden p-1 bg-black">
                 <img id="mImg" src="" class="w-full h-full object-cover rounded-full">
             </div>
             <p id="mRole" class="text-red-600 text-[10px] font-black uppercase tracking-[0.2em] mb-1"></p>
             <h3 id="mName" class="text-xl font-black italic text-white mb-6"></h3>
             <div class="space-y-3">
-                <a id="mIG" href="#" target="_blank" class="block bg-white text-black py-2 font-bold text-xs uppercase hover:bg-red-600 hover:text-white transition">Visit Instagram</a>
+                <a id="mIG" href="#" target="_blank" class="block bg-white text-black py-2 font-bold text-xs uppercase hover:bg-red-600 hover:text-white transition transform hover:-translate-y-1">Visit Instagram</a>
                 <button onclick="closeModal()" class="text-zinc-500 text-[10px] uppercase font-bold tracking-widest hover:text-white transition">Close</button>
             </div>
         </div>
@@ -104,9 +144,8 @@
                 deptName: 'Coordinators',
                 color: 'red',
                 members: [
-		  { full: 'นางสาวใบข้าว เปี่ยมทองคำ', nick: 'ใบข้าว', role: 'หัวหน้าประสานงาน', ig: '@bqnclz9', img: 'https://scontent.fbkk22-1.fna.fbcdn.net/v/t1.15752-9/614556512_1951762112361554_4434134717209643794_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=0024fc&_nc_ohc=CpLc6acW5XkQ7kNvwGBRysE&_nc_oc=AdkBYlqKuLEK8-h5o7JO3KH81Q5pSFwJKgPY3JGToCdqLscDxuCZJkwqvwsU6SNM6Cc&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-1.fna&oh=03_Q7cD4QETo39pJRg0rnx7LqgUUNITGndDGrl3RsL6wDlwkHfvFQ&oe=69958321' },
+                    { full: 'นางสาวใบข้าว เปี่ยมทองคำ', nick: 'ใบข้าว', role: 'หัวหน้าประสานงาน', ig: '@bqnclz9', img: 'https://scontent.fbkk22-1.fna.fbcdn.net/v/t1.15752-9/614556512_1951762112361554_4434134717209643794_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=0024fc&_nc_ohc=CpLc6acW5XkQ7kNvwGBRysE&_nc_oc=AdkBYlqKuLEK8-h5o7JO3KH81Q5pSFwJKgPY3JGToCdqLscDxuCZJkwqvwsU6SNM6Cc&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-1.fna&oh=03_Q7cD4QETo39pJRg0rnx7LqgUUNITGndDGrl3RsL6wDlwkHfvFQ&oe=69958321' },
                     { full: 'นางสาวชุติการณ์ สมสายฝน', nick: 'กิ้บ', role: 'ประสานงาน', ig: '@9czusi.k', img: 'https://scontent.fbkk22-1.fna.fbcdn.net/v/t1.15752-9/614140381_2145877699554229_39352695626633711_n.png?_nc_cat=101&ccb=1-7&_nc_sid=0024fc&_nc_ohc=zydfckKgnAQQ7kNvwHnCBYQ&_nc_oc=AdlV3YxJTGm4wGDMxnJDqXDVF7mMSywXwLQggtFlKwWD_oePhv_DDJNH0fO7l6NOuOg&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-1.fna&oh=03_Q7cD4QG9VQAggJlXye3EfK90wXcbc-Mjc4lxTZ49j7VHFoDleA&oe=69955C01' },
-                 
                     { full: 'นางสาวพัทธนันท์ ไกรทอง', nick: 'ออม', role: 'ประสานงาน', ig: '@7augustii', img: 'https://scontent.fbkk22-3.fna.fbcdn.net/v/t1.15752-9/598659798_2875881865938827_5514433900266970277_n.png?_nc_cat=111&ccb=1-7&_nc_sid=0024fc&_nc_ohc=hpVkWWm22acQ7kNvwH7JR11&_nc_oc=AdmIT0aLPmfodqg2rzl1dne4ndwQA0Mc8mu7FnM1zpEYvIacTgiW9feWzV6w6vtwr3c&_nc_ad=z-m&_nc_cid=1483&_nc_zt=23&_nc_ht=scontent.fbkk22-3.fna&oh=03_Q7cD4QHr25Mp8kgI9t0TtLHdDPwjz1LJC-yGbdUV5cCDUYuEaw&oe=6995B4A6' }
                 ]
             },
@@ -164,19 +203,25 @@
         const container = document.getElementById('dynamic-members');
         membersData.forEach((dept, idx) => {
             let html = `
-                <h2 class="text-left font-bold text-${dept.color} mb-6 uppercase text-xs tracking-widest italic">0${idx + 3} ${dept.deptName}</h2>
+                <h2 class="text-left font-bold text-${dept.color} mb-6 uppercase text-xs tracking-widest italic flex items-center gap-2">
+                    <span class="text-2xl opacity-50">0${idx + 3}</span> ${dept.deptName}
+                </h2>
                 <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6 mb-20">
             `;
             dept.members.forEach(m => {
                 const isHead = m.role.includes('หัวหน้า');
-                const borderColor = isHead ? 'border-red' : 'border-white';
-                const stripColor = isHead ? 'bg-red-strip' : 'bg-black-strip';
+                // เพิ่มเงื่อนไขเส้นขอบ: ถ้าเป็นหัวหน้าใช้เส้นแดง ถ้าสมาชิกทั่วไปใช้เส้นขาว
+                const borderColor = isHead ? 'border-red-600' : 'border-white';
+                const stripColor = isHead ? 'bg-red-strip' : 'bg-black-strip border-b-white';
+                
                 html += `
                     <div class="member-card" onclick="openModal('${m.full}', '${m.nick}', '${m.role}', '${m.ig}', '${m.img}')">
-                        <div class="image-container ${borderColor}"><img src="${m.img}" class="w-full h-full object-cover"></div>
+                        <div class="image-container ${borderColor}" style="border-color: ${isHead ? '#e11d48' : '#ffffff'};">
+                            <img src="${m.img}">
+                        </div>
                         <div class="info-strip ${stripColor} text-white">
-                            <p class="text-[9px] font-bold leading-none mb-1 uppercase">${m.role}</p>
-                            <p class="text-xs font-black">${m.full} (${m.nick})</p>
+                            <p class="text-[9px] font-bold leading-none mb-1 uppercase opacity-80">${m.role}</p>
+                            <p class="text-xs font-black truncate">${m.full} (${m.nick})</p>
                         </div>
                     </div>
                 `;
